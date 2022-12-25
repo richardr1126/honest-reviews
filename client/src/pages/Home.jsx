@@ -6,7 +6,7 @@ function Home() {
   const isMobile = window.innerWidth <= 768;
 
 	return (
-		<div style={isMobile ? {padding: '1rem'} : {paddingTop: '1rem'}}>
+		<div style={{padding: '1rem'}}>
 			<div className="box content container is-max-desktop" style={{backgroundColor: '#262626'}}>
 				<a href="/"><h2 style={{color: 'white'}}>Honest reviews</h2></a>
 				<p style={{color: 'white'}}>
