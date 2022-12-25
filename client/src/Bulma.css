@@ -1,3 +1,9 @@
+.no-padding {
+    padding: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+    border-radius: 0.25rem !important;
+}
+
 /*! bulma.io v0.9.4 | MIT License | github.com/jgthms/bulma */
 .button,
 .file-cta,

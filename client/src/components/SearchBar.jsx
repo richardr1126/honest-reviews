@@ -9,7 +9,7 @@ export default function SearchBar({ searchTerm, setSearchTerm }) {
         <input
           className="input"
           type="text"
-          placeholder="Search for a movie"
+          placeholder="Search by title"
           value={searchTerm}
           onChange={(event) => setSearchTerm(event.target.value)}
         />

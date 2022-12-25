@@ -3,14 +3,16 @@ import Axios from 'axios';
 import MovieCard from './MovieCard';
 import SearchBar from './SearchBar';
 
-function MoviesList() {
+function MoviesList(props) {
   const [listofMovies, setListOfMovies] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   
 
+  
+
+
   useEffect(() => {
-    /* Localhost */
-    Axios.get('/api/movies/get').then((response) => {
+    Axios.get((process.env.NODE_ENV === 'production') ? '/api/movies/get' : 'http://localhost:3001/api/movies/get').then((response) => {
       //sort movies by latest review date
       const movies = response.data.sort((a, b) => {
         if (a.reviews.length > 0 && b.reviews.length > 0) {
@@ -25,10 +27,6 @@ function MoviesList() {
       });
       setListOfMovies(movies);
     });
-  }, [searchTerm]);
-
-
-  useEffect(() => {
     //if search term has more than 5 characters
     if (searchTerm) {
       Axios.get(`https://www.omdbapi.com/?apikey=306c054b&s=${searchTerm}&type=movie`)
@@ -75,7 +73,7 @@ function MoviesList() {
   
 
   return (
-    <div className='box container is-max-desktop' style={{backgroundColor: '#262626'}}>
+    <div className='box container is-max-desktop' style={props.darkMode ? {backgroundColor: '#262626'} : {backgroundColor: 'white'}}>
       <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
       {filteredMovies.map((movie) => {
         //random key 20 digits
@@ -83,7 +81,7 @@ function MoviesList() {
         return (
           <>
             <br />
-            <MovieCard key={key} movie={movie} setListOfMovies={setListOfMovies} listofMovies={listofMovies} />
+            <MovieCard key={key} darkMode={props.darkMode} movie={movie} setListOfMovies={setListOfMovies} listofMovies={listofMovies} />
           </>
         );
       })}
