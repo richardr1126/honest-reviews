@@ -11,6 +11,8 @@ function ReviewModal(props) {
   const reviewAuthorRef = useRef();
   const reviewTextRef = useRef();
 
+  const isMobile = window.innerWidth <= 768;
+
   function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -45,7 +47,7 @@ function ReviewModal(props) {
   return (
     <div className="modal" ref={props.modalRef}>
       <div className='modal-background'>
-        <div className="modal-content" style={{ paddingTop: '5rem', height: 'min-content' }}>
+        <div className="modal-content" style={{ paddingTop: '5rem', paddingRight: isMobile ? '2.5rem' : '', height: 'min-content' }}>
           <div className="box">
             <button className="modal-close is-large" aria-label="close" onClick={() => { props.modalRef.current.classList.toggle('is-active'); }}></button>
             <form onSubmit={ event => {event.preventDefault();} }>

@@ -34,29 +34,39 @@ function MovieCard(props) {
     <div key={movieId}>
       <br />
       <div className={expanded ? (props.darkMode ? "card is-darkmode-hoverable" : "card is-hoverable") : (props.darkMode ? "card is-darkmode-hoverable has-cursor-pointer" : "card is-hoverable")} onClick={(event) => {
-          if (!expanded) {
-            setExpanded(true);
-          }
-        }} style={{ backgroundColor: '#f5f5f5'}}>
-        <div className="card-content" style={expanded^!hasReviews ? {paddingBottom: '12px'} : {}}>
-          <div className="media" style={expanded ? {} : {margin: '0rem'}}>
-            <div className="media-left">
+        if (!expanded) {
+          setExpanded(true);
+        }
+      }} style={{ backgroundColor: '#f5f5f5' }}>
+        <div className="card-content" style={expanded ^ !hasReviews ? { paddingBottom: '12px' } : {}}>
+          {isMobile && (
+            <div className="card-image" style={{paddingBottom: '0.75rem'}}>
               <figure className={expanded && !isMobile ? 'image is-150x225' : 'image is-75x112'}>
-                <img className='is-hoverable' src={props.movie.posterImageUrl} alt={props.movie.title} style={{ borderRadius: '0.25rem'}} />
+                <img className='is-hoverable' src={props.movie.posterImageUrl} alt={props.movie.title} style={{ borderRadius: '0.25rem' }} />
               </figure>
             </div>
+          )}
+          <div className="media" style={expanded ? {} : { margin: '0rem' }}>
+            {!isMobile && (
+              <div className="media-left">
+                <figure className={expanded && !isMobile ? 'image is-150x225' : 'image is-75x112'}>
+                  <img className='is-hoverable' src={props.movie.posterImageUrl} alt={props.movie.title} style={{ borderRadius: '0.25rem' }} />
+                </figure>
+              </div>
+            )}
+
             {/* No scroll media-content*/}
-            <div className="media-content is-clipped" style={{overflow: 'hidden'}}>
+            <div className="media-content is-clipped" style={{ overflow: 'hidden' }}>
               <div className='columns'>
                 <div className='column'>
-                  <p className={expanded ? "title is-4": "title is-5"}>
+                  <p className={expanded ? "title is-4" : "title is-5"}>
                     {props.movie.title + ' '}
                     {calculateAverageRating(props.movie.reviews) > 0 && (
-                      <span className={expanded ? "tag is-info is-medium": "tag is-info is-small"}>{calculateAverageRating(props.movie.reviews)}</span>
+                      <span className={expanded ? "tag is-info is-medium" : "tag is-info is-small"}>{calculateAverageRating(props.movie.reviews)}</span>
                     )}
                   </p>
                   <p className="subtitle is-6">
-                    {'Directed by '+props.movie.director}
+                    {'Directed by ' + props.movie.director}
                   </p>
                   <p className="subtitle is-6">
                     {dateFormatter.format(new Date(props.movie.releaseDate))}
@@ -96,17 +106,17 @@ function MovieCard(props) {
             <button onClick={() => { modalRef.current.classList.toggle('is-active'); }} className='button is-fullwidth is-medium' style={{ borderRadius: '0.5rem' }}>
               <IonIcon icon={addCircleOutline} size='large' />
             </button>
-            
-            <div onClick={() => { setExpanded(false); }} className={expanded^!hasReviews ? '' : 'is-collapsed'}>
+
+            <div onClick={() => { setExpanded(false); }} className={expanded ^ !hasReviews ? '' : 'is-collapsed'}>
               <br />
               <IonIcon className='has-cursor-pointer' icon={chevronUpOutline} size='small' />
             </div>
-            
+
           </div>
-          
+
         </div>
       </div>
-      
+
     </div>
   );
 }
@@ -114,7 +124,7 @@ function MovieCard(props) {
 function calculateAverageRating(reviews) {
   if (reviews.length === 0) return 0;
   const totalRating = reviews.reduce((acc, review) => acc + (review.storyRating * 3) + review.musicRating + (review.performencesRating * 2), 0);
-  return Math.round((totalRating / (reviews.length * 6))*2);
+  return Math.round((totalRating / (reviews.length * 6)) * 2);
 }
 
 
