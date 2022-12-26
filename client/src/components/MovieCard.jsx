@@ -55,7 +55,9 @@ function MovieCard(props) {
                       <span className={expanded ? "tag is-info is-medium": "tag is-info is-small"}>{calculateAverageRating(props.movie.reviews)}</span>
                     )}
                   </p>
-
+                  <p className="subtitle is-6">
+                    {'Directed by '+props.movie.director}
+                  </p>
                   <p className="subtitle is-6">
                     {dateFormatter.format(new Date(props.movie.releaseDate))}
                   </p>

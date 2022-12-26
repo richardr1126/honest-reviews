@@ -20,6 +20,7 @@ router.post('/post', async (req, res) => {
     foundMovie = new MovieReviewModel({
       _id: movie._id,
       title: movie.title,
+      director: movie.director,
       releaseDate: movie.releaseDate,
       genre: movie.genre,
       plot: movie.plot,

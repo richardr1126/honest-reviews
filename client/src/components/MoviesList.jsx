@@ -38,6 +38,7 @@ function MoviesList(props) {
                 return {
                   _id: "",
                   title: movieDetailed.data.Title,
+                  director: movieDetailed.data.Director,
                   releaseDate: (movieDetailed.data.Released === 'N/A') ? null : movieDetailed.data.Released,
                   genre: movieDetailed.data.Genre,
                   plot: movieDetailed.data.Plot,
@@ -72,6 +73,7 @@ function MoviesList(props) {
     && movie.plot !== 'N/A'
     && movie.cast !== 'N/A'
     && movie.genre !== 'N/A'
+    && movie.director !== 'N/A'
   ).reduce((acc, current) => {
     if (!acc.some((item) => item.title === current.title)) {
       acc.push(current);
