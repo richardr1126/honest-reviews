@@ -586,7 +586,7 @@ table th {
 .is-collapsed {
     display: none;
 }
-  
+
 
 a.box:focus,
 a.box:hover {
@@ -5263,7 +5263,6 @@ print {
     color: #4a4a4a;
     max-width: 100%;
     position: relative
-    
 }
 
 .is-darkmode-hoverable:hover {
@@ -13108,4 +13107,3 @@ print {
     background-color: #fafafa;
     padding: 3rem 1.5rem 6rem
 }
-

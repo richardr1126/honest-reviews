@@ -111,8 +111,10 @@ function MovieCard(props) {
 
 function calculateAverageRating(reviews) {
   if (reviews.length === 0) return 0;
-  const totalRating = reviews.reduce((acc, review) => acc + review.storyRating + review.musicRating + review.performencesRating, 0);
-  return Math.round((totalRating / (reviews.length * 3))*2);
+  const totalRating = reviews.reduce((acc, review) => acc + (review.storyRating * 3) + review.musicRating + (review.performencesRating * 2), 0);
+  return Math.round((totalRating / (reviews.length * 6))*2);
 }
+
+
 
 export default MovieCard;
