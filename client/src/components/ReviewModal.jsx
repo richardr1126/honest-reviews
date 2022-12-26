@@ -18,7 +18,7 @@ function ReviewModal(props) {
   }
 
   function createNewReview() {
-    Axios.post((process.env.NODE_ENV === 'production') ? '/api/movies/get' : 'http://localhost:3001/api/movies/get', {
+    Axios.post((process.env.NODE_ENV === 'production') ? '/api/movies/post' : 'http://localhost:3001/api/movies/post', {
       movie: props.movie, review: {
         author: reviewAuthorRef.current.value,
         storyRating: storySliderValue,
