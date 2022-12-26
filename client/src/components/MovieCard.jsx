@@ -1,4 +1,4 @@
-import { useRef, useState, useId } from 'react';
+import { useRef, useState, useId, useEffect } from 'react';
 import { IonIcon } from '@ionic/react';
 import { addCircleOutline, chevronUpOutline } from 'ionicons/icons';
 import ReviewModal from './ReviewModal';
@@ -14,13 +14,21 @@ function MovieCard(props) {
   // Create a ref for the modal element
   const modalRef = useRef(null);
 
-  const [expanded, setExpanded] = useState(!props.movie.reviews.length > 0);
+  const [expanded, setExpanded] = useState(false);
 
   const movieId = "movie-" + useId();
   props.movie._id = movieId;
 
   const isMobile = window.innerWidth < 768;
   const hasReviews = props.movie.reviews.length > 0;
+
+  useEffect(() => {
+    if (hasReviews) {
+      setExpanded(false);
+    } else {
+      setExpanded(true);
+    }
+  }, [hasReviews]);
 
   return (
     <div key={movieId}>

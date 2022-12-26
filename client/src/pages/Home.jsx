@@ -15,7 +15,7 @@ function Home() {
 		setDarkMode(prefersDarkScheme.matches);
 		prefersDarkScheme.addEventListener('change', mediaQuery => setDarkMode(mediaQuery.matches));
 		return () => prefersDarkScheme.removeEventListener('change', () => { });
-	}, []);
+	});
 
 	const textStyle = darkMode ? { color: 'white' } : { color: 'black' };
 	return (
