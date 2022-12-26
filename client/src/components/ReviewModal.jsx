@@ -3,9 +3,9 @@ import Axios from 'axios';
 
 function ReviewModal(props) {
   // Create a state variable for the slider values
-  const [storySliderValue, setStorySliderValue] = useState(getRandomInt(0, 10));
-  const [performancesSliderValue, setPerformancesSliderValue] = useState(getRandomInt(0, 10));
-  const [musicSliderValue, setMusicSliderValue] = useState(getRandomInt(0, 10));
+  const [storySliderValue, setStorySliderValue] = useState(getRandomInt(0, 5));
+  const [performancesSliderValue, setPerformancesSliderValue] = useState(getRandomInt(0, 5));
+  const [musicSliderValue, setMusicSliderValue] = useState(getRandomInt(0, 5));
 
   // Create state variables for the review author and text
   const reviewAuthorRef = useRef();
@@ -49,19 +49,19 @@ function ReviewModal(props) {
               <div className="field">
                 <label className="label">Story Rating: {storySliderValue}</label>
                 <div className="control">
-                  <input value={storySliderValue} onChange={(event) => { setStorySliderValue(event.target.value); }} className="bar" type="range" min="0" max="10" step="1" style={{ width: '100%' }} />
+                  <input value={storySliderValue} onChange={(event) => { setStorySliderValue(event.target.value); }} className="bar" type="range" min="0" max="5" step="1" style={{ width: '100%' }} />
                 </div>
               </div>
               <div className="field">
                 <label className="label">Performences Rating: {performancesSliderValue}</label>
                 <div className="control">
-                  <input value={performancesSliderValue} onChange={(event) => { setPerformancesSliderValue(event.target.value); }} className="bar" type="range" min="0" max="10" step="1" style={{ width: '100%' }} />
+                  <input value={performancesSliderValue} onChange={(event) => { setPerformancesSliderValue(event.target.value); }} className="bar" type="range" min="0" max="5" step="1" style={{ width: '100%' }} />
                 </div>
               </div>
               <div className="field">
                 <label className="label">Music Rating: {musicSliderValue}</label>
                 <div className="control">
-                  <input value={musicSliderValue} onChange={(event) => { setMusicSliderValue(event.target.value); }} className="bar" type="range" min="0" max="10" step="1" style={{ width: '100%' }} />
+                  <input value={musicSliderValue} onChange={(event) => { setMusicSliderValue(event.target.value); }} className="bar" type="range" min="0" max="5" step="1" style={{ width: '100%' }} />
                 </div>
               </div>
               <div className="field">

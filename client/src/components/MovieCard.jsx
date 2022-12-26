@@ -16,7 +16,7 @@ function MovieCard(props) {
 
   const [expanded, setExpanded] = useState(!props.movie.reviews.length > 0);
 
-  const movieId = useId();
+  const movieId = "movie-" + useId();
   props.movie._id = movieId;
 
   const isMobile = window.innerWidth < 768;
@@ -24,6 +24,7 @@ function MovieCard(props) {
 
   return (
     <div key={movieId}>
+      <br />
       <div className={expanded ? (props.darkMode ? "card is-darkmode-hoverable" : "card is-hoverable") : (props.darkMode ? "card is-darkmode-hoverable has-cursor-pointer" : "card is-hoverable")} onClick={(event) => {
           if (!expanded) {
             setExpanded(true);
@@ -70,9 +71,9 @@ function MovieCard(props) {
                     <p>{dateFormatter.format(new Date(review.date))}</p>
                   </div>
                   <div className='column'>
-                    <label className='label'>Story <progress className="progress is-danger is-small" value={review.storyRating} max="10">{review.storyRating}%</progress></label>
-                    <label className='label'>Performences <progress className="progress is-info is-small" value={review.performencesRating} max="10">{review.performencesRating}%</progress></label>
-                    <label className='label'>Music <progress className="progress is-primary is-small" value={review.musicRating} max="10">{review.musicRating}%</progress></label>
+                    <label className='label'>Story <progress className="progress is-danger is-small" value={review.storyRating} max="5">{review.storyRating}%</progress></label>
+                    <label className='label'>Performences <progress className="progress is-info is-small" value={review.performencesRating} max="5">{review.performencesRating}%</progress></label>
+                    <label className='label'>Music <progress className="progress is-primary is-small" value={review.musicRating} max="5">{review.musicRating}%</progress></label>
                   </div>
                 </div>
 
@@ -103,7 +104,7 @@ function MovieCard(props) {
 function calculateAverageRating(reviews) {
   if (reviews.length === 0) return 0;
   const totalRating = reviews.reduce((acc, review) => acc + review.storyRating + review.musicRating + review.performencesRating, 0);
-  return Math.round(totalRating / (reviews.length * 3));
+  return Math.round((totalRating / (reviews.length * 3))*2);
 }
 
 export default MovieCard;
