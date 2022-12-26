@@ -30,7 +30,16 @@ function ReviewModal(props) {
     }).then((response) => {
       props.modalRef.current.classList.toggle('is-active');
       props.setListOfMovies(response.data);
+      //set scroll to top
+      window.scrollTo(0, 0);
+      //set all refs and states to default
+      reviewAuthorRef.current.value = '';
+      reviewTextRef.current.value = '';
+      setStorySliderValue(getRandomInt(0, 5));
+      setPerformancesSliderValue(getRandomInt(0, 5));
+      setMusicSliderValue(getRandomInt(0, 5));
     });
+    
   };
 
   return (

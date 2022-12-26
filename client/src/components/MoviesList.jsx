@@ -67,8 +67,18 @@ function MoviesList(props) {
   const filteredMovies = listofMovies.filter((movie) =>
     movie.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
+  filteredMovies.sort((a, b) => {
+    if (a.reviews.length > 0 && b.reviews.length > 0) {
+      return new Date(b.reviews[b.reviews.length - 1].date) - new Date(a.reviews[a.reviews.length - 1].date);
+    } else if (a.reviews.length > 0) {
+      return new Date(b.reviews[b.reviews.length - 1].date) - new Date(a.releaseDate);
+    } else if (b.reviews.length > 0) {
+      return new Date(b.releaseDate) - new Date(a.reviews[a.reviews.length - 1].date);
+    } else {
+      return new Date(b.releaseDate) - new Date(a.releaseDate);
+    }
+  });
 
-  
 
   return (
     <div className='box container is-max-desktop' style={props.darkMode ? {backgroundColor: '#262626'} : {backgroundColor: 'white'}}>
