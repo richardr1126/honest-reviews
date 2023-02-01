@@ -23,6 +23,11 @@ function ReviewModal(props) {
     }
   }, [characterCount]);
 
+  //get word count
+  function getWordCount(str) {
+    return str.trim().split(/\s+/).length;
+  }
+
 
 
   function getRandomInt(min, max) {
@@ -35,13 +40,13 @@ function ReviewModal(props) {
   function createNewReview() {
     if (reviewAuthorRef.current.value === '') {
       setReviewAuthorError(true);
-      if (reviewTextRef.current.value === '' || reviewTextRef.current.value.length < 200) {
+      if (reviewTextRef.current.value === '' || reviewTextRef.current.value.length < 200 || getWordCount(reviewTextRef.current.value) < 20) {
         setReviewTextError(true);
         return;
       }
       return;
     } else {
-      if (reviewTextRef.current.value === '' || reviewTextRef.current.value.length < 200) {
+      if (reviewTextRef.current.value === '' || reviewTextRef.current.value.length < 200 || getWordCount(reviewTextRef.current.value) < 20) {
         setReviewTextError(true);
         return;
       }
@@ -103,7 +108,7 @@ function ReviewModal(props) {
                 </div>
               </div>
               <div className="field">
-                <label className="label" style={reviewTextError ? { color: "red" } : {}}>{reviewTextError ? "Error: Your review must be longer than 200 characters" : "Review"}</label>
+                <label className="label" style={reviewTextError ? { color: "red" } : {}}>{reviewTextError ? "Error: Must be longer than 200 characters and more than 20 words" : "Review"}</label>
                 <div className="control">
                   <textarea ref={reviewTextRef} className="textarea" onChange={(event) => { setCharacterCount(event.target.value.length); }} placeholder="Write a review of at least 200 characters" style={((characterCount < 200 && characterCount > 0) || reviewTextError) ? { border: "2px solid #f14668" } : ((characterCount > 0) ? {border: "2px solid #48c78e"}:{})}></textarea>
                 </div>
