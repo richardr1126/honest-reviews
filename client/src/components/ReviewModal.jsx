@@ -6,7 +6,6 @@ function ReviewModal(props) {
   const [storySliderValue, setStorySliderValue] = useState(getRandomInt(0, 5));
   const [performancesSliderValue, setPerformancesSliderValue] = useState(getRandomInt(0, 5));
   const [musicSliderValue, setMusicSliderValue] = useState(getRandomInt(0, 5));
-  const [reviewAuthorError, setReviewAuthorError] = useState(false);
   const [reviewTextError, setReviewTextError] = useState(false);
   //character count
   const [characterCount, setCharacterCount] = useState(0);
@@ -28,39 +27,64 @@ function ReviewModal(props) {
     return str.trim().split(/\s+/).length;
   }
 
-
-
   function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
+  function isSpamReview(review) {
+    if (getWordCount(review) < 20) {
+      return true;
+    }
+    //spam keywords: fuck, buy now, click here
+    const spamKeywords = ["fuck", "buy now", "click here"];
+    for (let keyword of spamKeywords) {
+      if (review.includes(keyword)) {
+        return true;
+      }
+    }
+    if (review.match(/https?:\/\/[^\s]+/g) || review.includes(".com")) {
+      return true;
+    }
+    const words = review.split(" ");
+    const uniqueWords = [...new Set(words)];
+    const uniqueWordsPercentage = uniqueWords.length / words.length;
+
+    if (uniqueWordsPercentage < 0.5) {
+      return true;
+    }
+
+    return false;
+  }
+
 
   function createNewReview() {
     if (reviewAuthorRef.current.value === '') {
-      setReviewAuthorError(true);
-      if (reviewTextRef.current.value === '' || reviewTextRef.current.value.length < 200 || getWordCount(reviewTextRef.current.value) < 20) {
+      reviewAuthorRef.current.value = 'Anonymous';
+      if (reviewTextRef.current.value === '' || reviewTextRef.current.value.length < 200 || isSpamReview(reviewTextRef.current.value)) {
         setReviewTextError(true);
         return;
       }
-      return;
     } else {
-      if (reviewTextRef.current.value === '' || reviewTextRef.current.value.length < 200 || getWordCount(reviewTextRef.current.value) < 20) {
+      if (reviewTextRef.current.value === '' || reviewTextRef.current.value.length < 200 || isSpamReview(reviewTextRef.current.value)) {
         setReviewTextError(true);
         return;
       }
     }
 
+    const newReview = {
+      author: reviewAuthorRef.current.value,
+      storyRating: storySliderValue,
+      musicRating: musicSliderValue,
+      performancesRating: performancesSliderValue,
+      review: reviewTextRef.current.value,
+      date: new Date()
+    };
+
+
     Axios.post((process.env.NODE_ENV === 'production') ? '/api/movies/post' : 'http://localhost:3001/api/movies/post', {
-      movie: props.movie, review: {
-        author: reviewAuthorRef.current.value,
-        storyRating: storySliderValue,
-        musicRating: musicSliderValue,
-        performancesRating: performancesSliderValue,
-        review: reviewTextRef.current.value,
-        date: new Date()
-      }
+      movie: props.movie, review: newReview
     }).then((response) => {
       props.modalRef.current.classList.toggle('is-active');
       props.setListOfMovies(response.data);
@@ -69,6 +93,7 @@ function ReviewModal(props) {
       //set all refs and states to default
       reviewAuthorRef.current.value = '';
       reviewTextRef.current.value = '';
+      setCharacterCount(0);
       setStorySliderValue(getRandomInt(0, 5));
       setPerformancesSliderValue(getRandomInt(0, 5));
       setMusicSliderValue(getRandomInt(0, 5));
@@ -84,9 +109,9 @@ function ReviewModal(props) {
             <button className="modal-close is-large" aria-label="close" onClick={() => { props.modalRef.current.classList.toggle('is-active'); }}></button>
             <form onSubmit={event => { event.preventDefault(); }}>
               <div className="field">
-                <label className="label" style={reviewAuthorError ? { color: "red" } : {}}>{reviewAuthorError ? "Error: Please enter a name" : "Name"}</label>
+                <label className="label">Name</label>
                 <div className="control">
-                  <input ref={reviewAuthorRef} className="input" type="text" placeholder="Your name" style={reviewAuthorError ? { border: "2px solid red" } : {}} />
+                  <input ref={reviewAuthorRef} className="input" type="text" placeholder="Enter a name or leave blank to be anonymous" />
                 </div>
               </div>
               <div className="field">
@@ -108,7 +133,7 @@ function ReviewModal(props) {
                 </div>
               </div>
               <div className="field">
-                <label className="label" style={reviewTextError ? { color: "red" } : {}}>{reviewTextError ? "Error: Must be longer than 200 characters and more than 20 words" : "Review"}</label>
+                <label className="label" style={reviewTextError ? { color: "red" } : {}}>{reviewTextError ? "Error: Please enter a valid review" : "Review"}</label>
                 <div className="control">
                   <textarea ref={reviewTextRef} className="textarea" onChange={(event) => { setCharacterCount(event.target.value.length); }} placeholder="Write a review of at least 200 characters" style={((characterCount < 200 && characterCount > 0) || reviewTextError) ? { border: "2px solid #f14668" } : ((characterCount > 0) ? {border: "2px solid #48c78e"}:{})}></textarea>
                 </div>

@@ -4,7 +4,7 @@ const reviewSchema = new mongoose.Schema({
   author: String,
   storyRating: Number,
   musicRating: Number,
-  performencesRating: Number,
+  performancesRating: Number,
   review: String,
   date: Date
 });
