@@ -96,7 +96,7 @@ function ReviewModal(props) {
                 </div>
               </div>
               <div className="field">
-                <label className="label">Performences Rating: {performancesSliderValue}</label>
+                <label className="label">Performances Rating: {performancesSliderValue}</label>
                 <div className="control">
                   <input value={performancesSliderValue} onChange={(event) => { setPerformancesSliderValue(event.target.value); }} className="bar" type="range" min="0" max="5" step="1" style={{ width: '100%' }} />
                 </div>

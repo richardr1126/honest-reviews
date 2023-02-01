@@ -92,7 +92,7 @@ function MovieCard(props) {
                   </div>
                   <div className='column'>
                     <label className='label'>Story <progress className="progress is-danger is-small" value={review.storyRating} max="5">{review.storyRating}%</progress></label>
-                    <label className='label'>Performences <progress className="progress is-info is-small" value={review.performencesRating} max="5">{review.performencesRating}%</progress></label>
+                    <label className='label'>Performances <progress className="progress is-info is-small" value={review.performencesRating} max="5">{review.performencesRating}%</progress></label>
                     <label className='label'>Music <progress className="progress is-primary is-small" value={review.musicRating} max="5">{review.musicRating}%</progress></label>
                   </div>
                 </div>
