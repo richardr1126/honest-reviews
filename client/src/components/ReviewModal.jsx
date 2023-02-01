@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Axios from 'axios';
 
 function ReviewModal(props) {
@@ -6,6 +6,10 @@ function ReviewModal(props) {
   const [storySliderValue, setStorySliderValue] = useState(getRandomInt(0, 5));
   const [performancesSliderValue, setPerformancesSliderValue] = useState(getRandomInt(0, 5));
   const [musicSliderValue, setMusicSliderValue] = useState(getRandomInt(0, 5));
+  const [reviewAuthorError, setReviewAuthorError] = useState(false);
+  const [reviewTextError, setReviewTextError] = useState(false);
+  //character count
+  const [characterCount, setCharacterCount] = useState(0);
 
   // Create state variables for the review author and text
   const reviewAuthorRef = useRef();
@@ -13,13 +17,36 @@ function ReviewModal(props) {
 
   const isMobile = window.innerWidth <= 768;
 
+  useEffect(() => {
+    if (characterCount >= 200) {
+      setReviewTextError(false);
+    }
+  }, [characterCount]);
+
+
+
   function getRandomInt(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
+
   function createNewReview() {
+    if (reviewAuthorRef.current.value === '') {
+      setReviewAuthorError(true);
+      if (reviewTextRef.current.value === '' || reviewTextRef.current.value.length < 200) {
+        setReviewTextError(true);
+        return;
+      }
+      return;
+    } else {
+      if (reviewTextRef.current.value === '' || reviewTextRef.current.value.length < 200) {
+        setReviewTextError(true);
+        return;
+      }
+    }
+
     Axios.post((process.env.NODE_ENV === 'production') ? '/api/movies/post' : 'http://localhost:3001/api/movies/post', {
       movie: props.movie, review: {
         author: reviewAuthorRef.current.value,
@@ -41,7 +68,7 @@ function ReviewModal(props) {
       setPerformancesSliderValue(getRandomInt(0, 5));
       setMusicSliderValue(getRandomInt(0, 5));
     });
-    
+
   };
 
   return (
@@ -50,11 +77,11 @@ function ReviewModal(props) {
         <div className="modal-content" style={{ paddingTop: '5rem', paddingRight: isMobile ? '2.5rem' : '', height: 'min-content' }}>
           <div className="box">
             <button className="modal-close is-large" aria-label="close" onClick={() => { props.modalRef.current.classList.toggle('is-active'); }}></button>
-            <form onSubmit={ event => {event.preventDefault();} }>
+            <form onSubmit={event => { event.preventDefault(); }}>
               <div className="field">
-                <label className="label">Name</label>
+                <label className="label" style={reviewAuthorError ? { color: "red" } : {}}>{reviewAuthorError ? "Error: Please enter a name" : "Name"}</label>
                 <div className="control">
-                  <input ref={reviewAuthorRef} className="input" type="text" placeholder="Your name" />
+                  <input ref={reviewAuthorRef} className="input" type="text" placeholder="Your name" style={reviewAuthorError ? { border: "2px solid red" } : {}} />
                 </div>
               </div>
               <div className="field">
@@ -76,16 +103,22 @@ function ReviewModal(props) {
                 </div>
               </div>
               <div className="field">
-                <label className="label">Review</label>
+                <label className="label" style={reviewTextError ? { color: "red" } : {}}>{reviewTextError ? "Error: Your review must be longer than 200 characters" : "Review"}</label>
                 <div className="control">
-                  <textarea ref={reviewTextRef} className="textarea" placeholder="Write your review here"></textarea>
+                  <textarea ref={reviewTextRef} className="textarea" onChange={(event) => { setCharacterCount(event.target.value.length); }} placeholder="Write a review of at least 200 characters" style={((characterCount < 200 && characterCount > 0) || reviewTextError) ? { border: "2px solid #f14668" } : ((characterCount > 0) ? {border: "2px solid #48c78e"}:{})}></textarea>
                 </div>
               </div>
-              <div className="field is-grouped">
-                <div className="control">
-                  <button onClick={createNewReview} className="button is-link">Submit</button>
+              <div className="columns">
+                <div className="column">
+                  <div className="control">
+                    <button onClick={createNewReview} className="button is-link">Submit</button>
+                  </div>
+                </div>
+                <div className="column has-text-right">
+                  <p className={(characterCount < 200) ? 'has-text-danger' : 'has-text-success'}>{characterCount}/200</p>
                 </div>
               </div>
+              
             </form>
           </div>
         </div>

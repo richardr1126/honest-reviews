@@ -33,7 +33,7 @@ function MovieCard(props) {
   return (
     <div key={movieId}>
       <br />
-      <div className={expanded ? (props.darkMode ? "card is-darkmode-hoverable" : "card is-hoverable") : (props.darkMode ? "card is-darkmode-hoverable has-cursor-pointer" : "card is-hoverable")} onClick={(event) => {
+      <div className={expanded ? (props.darkMode ? "card is-darkmode-hoverable" : "card is-hoverable") : (props.darkMode ? "card is-darkmode-hoverable has-cursor-pointer" : "card is-hoverable has-cursor-pointer")} onClick={(event) => {
         if (!expanded) {
           setExpanded(true);
         }
