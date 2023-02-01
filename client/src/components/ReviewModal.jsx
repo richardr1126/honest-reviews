@@ -57,7 +57,7 @@ function ReviewModal(props) {
         author: reviewAuthorRef.current.value,
         storyRating: storySliderValue,
         musicRating: musicSliderValue,
-        performencesRating: performancesSliderValue,
+        performancesRating: performancesSliderValue,
         review: reviewTextRef.current.value,
         date: new Date()
       }
