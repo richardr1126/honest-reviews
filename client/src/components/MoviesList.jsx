@@ -27,11 +27,11 @@ function MoviesList(props) {
     });
     //if search term has more than 5 characters
     if (searchTerm.length >= 3) {
-      Axios.get(`https://www.omdbapi.com/?apikey=306c054b&s=${searchTerm}&type=movie`)
+      Axios.get(`http://www.omdbapi.com/?i=tt3896198&apikey=dd610a6e&s=${searchTerm}&type=movie`)
         .then(async (response) => {
           if (response.data.Response === 'True') {
             const newMoviesPromises = response.data.Search.map(async (movieUnformatted) => {
-              const movieDetailed = await Axios.get(`https://www.omdbapi.com/?apikey=306c054b&t=${movieUnformatted.Title}&type=movie`)
+              const movieDetailed = await Axios.get(`http://www.omdbapi.com/?i=tt3896198&apikey=dd610a6e&t=${movieUnformatted.Title}&type=movie`)
               if (movieDetailed.data.Response === 'True') {
                 console.log(movieDetailed.data);
 

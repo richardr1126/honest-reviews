@@ -37,8 +37,8 @@ function ReviewModal(props) {
     if (getWordCount(review) < 20) {
       return true;
     }
-    //spam keywords: fuck, buy now, click here
-    const spamKeywords = ["fuck", "buy now", "click here"];
+    
+    const spamKeywords = ["fuck", "buy now", "click here", "shit", "bitch", "nigger", "nigga", "cunt"];
     for (let keyword of spamKeywords) {
       if (review.includes(keyword)) {
         return true;
