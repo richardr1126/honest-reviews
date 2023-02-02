@@ -27,6 +27,7 @@ function MoviesList(props) {
     });
     //if search term has more than 5 characters
     if (searchTerm.length >= 3) {
+      //get movies from omdb api
       Axios.get(`https://www.omdbapi.com/?i=tt3896198&apikey=dd610a6e&s=${searchTerm}&type=movie`)
         .then(async (response) => {
           if (response.data.Response === 'True') {
