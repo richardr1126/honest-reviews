@@ -16,7 +16,11 @@ function MovieCard(props) {
 
   const [expanded, setExpanded] = useState(false);
 
-  const movieId = "movie-" + useId();
+  // Create a unique id for the movie card with random number
+  const randomNum = Math.floor(Math.random() * 1000000000);
+
+
+  const movieId = "movie-" + randomNum + useId();
   props.movie._id = movieId;
 
   const isMobile = window.innerWidth < 768;
