@@ -14,10 +14,14 @@ function Home() {
 		const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
 		setDarkMode(prefersDarkScheme.matches);
 		prefersDarkScheme.addEventListener('change', mediaQuery => setDarkMode(mediaQuery.matches));
+
 		return () => prefersDarkScheme.removeEventListener('change', () => { });
 	}, []);
 
 	const textStyle = darkMode ? { color: 'white' } : { color: 'black' };
+	//dark grey: #1f1f1f
+	document.getElementById('root').style.backgroundColor = darkMode ? '#1f1f1f':'white';
+
 	return (
 		<div style={{ padding: '1rem'}}>
 			<WelcomeCard key={'welcome-card'} textStyle={textStyle} darkMode={darkMode} />
