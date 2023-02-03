@@ -2,29 +2,33 @@ import { useRef, useState, useId, useEffect } from 'react';
 import { IonIcon } from '@ionic/react';
 import { addCircleOutline, chevronUpOutline } from 'ionicons/icons';
 import ReviewModal from './ReviewModal';
+import Review from './Review';
 
 function MovieCard(props) {
-
+  // Create a ref for the modal element
+  const modalRef = useRef(null);
+  // useState for openening and closing the card
+  const [expanded, setExpanded] = useState(false);
+  //---------------------------------------------
+  // Create a unique id for the movie card with random number
+  const randomNum = Math.floor(Math.random() * 1000000000);
+  const movieId = "movie-" + randomNum + useId();
+  props.movie._id = movieId;
+  //---------------------------------------------
+  // Check if device is mobile
+  const isMobile = window.innerWidth < 768;
+  // Check if movie has reviews
+  const hasReviews = props.movie.reviews.length > 0;
+  //---------------------------------------------
+  // Create a date formatter to format the date from the database
   const dateFormatter = new Intl.DateTimeFormat('en-US', {
     month: 'long',
     day: '2-digit',
     year: 'numeric'
   });
-
-  // Create a ref for the modal element
-  const modalRef = useRef(null);
-
-  const [expanded, setExpanded] = useState(false);
-
-  // Create a unique id for the movie card with random number
-  const randomNum = Math.floor(Math.random() * 1000000000);
-
-
-  const movieId = "movie-" + randomNum + useId();
-  props.movie._id = movieId;
-
-  const isMobile = window.innerWidth < 768;
-  const hasReviews = props.movie.reviews.length > 0;
+  //---------------------------------------------
+  // Card style
+  const cardStyle_padding = expanded ^ !hasReviews ? { paddingBottom: '12px' } : {};
 
   useEffect(() => {
     if (hasReviews) {
@@ -42,9 +46,9 @@ function MovieCard(props) {
           setExpanded(true);
         }
       }} style={{ backgroundColor: '#f5f5f5' }}>
-        <div className="card-content" style={expanded ^ !hasReviews ? { paddingBottom: '12px' } : {}}>
+        <div className="card-content" style={cardStyle_padding}>
           {isMobile && (
-            <div className="card-image" style={{paddingBottom: '0.75rem'}}>
+            <div className="card-image" style={{ paddingBottom: '0.75rem' }}>
               <figure className={expanded && !isMobile ? 'image is-150x225' : 'image is-75x112'}>
                 <img className='is-hoverable' src={props.movie.posterImageUrl} alt={props.movie.title} style={{ borderRadius: '0.25rem' }} />
               </figure>
@@ -86,23 +90,8 @@ function MovieCard(props) {
           </div>
 
           <div className={expanded ? 'content is-expanded' : 'content is-collapsed'}>
-            {props.movie.reviews.map((review) => (
-              <div className='box is-hoverable' key={review._id}>
-                <div className='columns'>
-                  <div className='column is-three-quarters'>
-                    <strong>{review.author}</strong>
-                    <p>{review.review}</p>
-                    <p>{dateFormatter.format(new Date(review.date))}</p>
-                  </div>
-                  <div className='column'>
-                    <label className='label'>Story <progress className="progress is-danger is-small" value={review.storyRating} max="5">{review.storyRating}%</progress></label>
-                    <label className='label'>Performances <progress className="progress is-info is-small" value={review.performancesRating} max="5">{review.performancesRating}%</progress></label>
-                    <label className='label'>Music <progress className="progress is-primary is-small" value={review.musicRating} max="5">{review.musicRating}%</progress></label>
-                  </div>
-                </div>
-
-              </div>
-
+            {props.movie.reviews.sort((a, b) => (b.upvotes - b.downvotes) - (a.upvotes - a.downvotes)).map((review) => (
+              <Review key={review._id} movie={props.movie} review={review} />
             ))}
 
             <ReviewModal movie={props.movie} modalRef={modalRef} setListOfMovies={props.setListOfMovies} listofMovies={props.listofMovies} />

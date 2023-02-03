@@ -44,4 +44,47 @@ router.post('/post', async (req, res) => {
   });
 })
 
+router.post('/upvote', async (req, res) => {
+  const { movie, review, newval } = req.body;
+  //console.log(review);
+  let foundMovie = await MovieReviewModel.findOne({ title: movie.title });
+  if (foundMovie) {
+    //console.log(foundMovie.reviews);
+    let foundReview = foundMovie.reviews.find(r => r._id.toString() === review._id);
+    //console.log(foundReview);
+    if (foundReview) {
+      foundReview.upvotes = newval;
+      //console.log(foundReview);
+      await foundMovie.save();
+      res.json({ message: 'Upvote added successfully' });
+    } else {
+      res.status(404).json({ message: 'Review not found' });
+    }
+  } else {
+    res.status(404).json({ message: 'Movie not found' });
+  }
+});
+
+//downvote a review
+router.post('/downvote', async (req, res) => {
+  const { movie, review, newval } = req.body;
+  //console.log(review);
+  let foundMovie = await MovieReviewModel.findOne({ title: movie.title });
+  if (foundMovie) {
+    //console.log(foundMovie.reviews);
+    let foundReview = foundMovie.reviews.find(r => r._id.toString() === review._id);
+    //console.log(foundReview);
+    if (foundReview) {
+      foundReview.downvotes = newval;
+      //console.log(foundReview);
+      await foundMovie.save();
+      res.json({ message: 'Downvote added successfully' });
+    } else {
+      res.status(404).json({ message: 'Review not found' });
+    }
+  } else {
+    res.status(404).json({ message: 'Movie not found' });
+  }
+});
+
 module.exports = router 

@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 
 const reviewSchema = new mongoose.Schema({
   author: String,
+  upvotes: Number,
+  downvotes: Number,
   storyRating: Number,
   musicRating: Number,
   performancesRating: Number,
