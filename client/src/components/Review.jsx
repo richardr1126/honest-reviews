@@ -3,17 +3,18 @@ import { IonIcon } from "@ionic/react";
 import { arrowUpOutline, arrowDownOutline } from "ionicons/icons";
 import Axios from "axios";
 import { useCookies } from "react-cookie";
+import CookieConsent from "react-cookie-consent";
 
-
-export default function Review({ movie, review }) {
+export default function Review({ movie, review, setUpvotesCallback, setDownvotesCallback }) {
   const [upvotes, setUpvotes] = useState(review.upvotes);
   const [downvotes, setDownvotes] = useState(review.downvotes);
-  const [cookies, setCookie] = useCookies(['upvoteIds', 'downvoteIds']);
+  const [cookies, setCookie] = useCookies(['upvoteIds', 'downvoteIds', 'acceptedCookies_BOOL']);
   const upvoteIds = cookies.upvoteIds || [];
   const downvoteIds = cookies.downvoteIds || [];
 
   const isUpvoted = upvoteIds.includes(review._id);
   const isDownvoted = downvoteIds.includes(review._id);
+
 
   const dateFormatter = new Intl.DateTimeFormat('en-US', {
     month: 'long',
@@ -24,8 +25,7 @@ export default function Review({ movie, review }) {
   const isMobile = window.innerWidth < 768;
   const iconSize = isMobile ? 'large' : 'small';
   const fontSize = isMobile ? '1.5rem' : '1rem';
-  const columnClassName = isMobile ? 'column is-8' : 'column is-11';
-  const columnClassName2 = isMobile ? 'column' : 'column';
+
 
   function upvote() {
     if (downvoteIds.includes(review._id)) {
@@ -75,7 +75,8 @@ export default function Review({ movie, review }) {
     });
   }
 
-
+  const columnClassName = isMobile ? 'column is-8' : 'column is-11';
+  const columnClassName2 = isMobile ? 'column' : 'column';
 
   return (
     <div className='box is-hoverable' key={review._id}>
@@ -85,7 +86,7 @@ export default function Review({ movie, review }) {
           <p>{review.review}</p>
           <p>{dateFormatter.format(new Date(review.date))}</p>
         </div>
-        <div className='column' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+        <div className='column' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', paddingBottom: '3px' }}>
           <label className='label'>Story <progress className="progress is-danger is-small" value={review.storyRating} max="5">{review.storyRating}%</progress></label>
           <label className='label'>Performances <progress className="progress is-info is-small" value={review.performancesRating} max="5">{review.performancesRating}%</progress></label>
           <label className='label'>Music <progress className="progress is-primary is-small" value={review.musicRating} max="5">{review.musicRating}%</progress></label>
@@ -104,7 +105,18 @@ export default function Review({ movie, review }) {
 
         </div>
       </div>
-
+      {/* have buttonStyle take up entire div */}
+      <CookieConsent
+        location="bottom"
+        buttonText="Sure man!!"
+        cookieName="acceptedCookies_BOOL"
+        style={{ background: "#2B373B"}}
+        buttonStyle={{ color: "#4e503b", fontSize: "18px", borderRadius: '5px', marginTop: isMobile ? '0' : '15px' }}
+        expires={150}
+      >
+        This website uses cookies to store the reviews you have upvoted.{" "}
+        <span style={{ fontSize: "10px" }}>Or downvoted. To enhance the user experience :O</span>
+      </CookieConsent>
     </div>
   )
 }
