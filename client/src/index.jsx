@@ -8,6 +8,9 @@ import { CookiesProvider } from 'react-cookie';
 import Home from './pages/Home.jsx';
 import Error404 from './pages/Error404.jsx';
 
+//dark grey: #1f1f1f
+document.getElementById('root').style.backgroundColor = '#1f1f1f';
+//document.getElementsByClassName('html').style.backgroundColor = '#1f1f1f';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(

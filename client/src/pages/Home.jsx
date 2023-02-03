@@ -22,7 +22,7 @@ function Home() {
 		<div style={{ padding: '1rem'}}>
 			<WelcomeCard key={'welcome-card'} textStyle={textStyle} darkMode={darkMode} />
 			<MoviesList key={"movies-list-"+moviesListId} darkMode={darkMode} />
-			<Footer />
+			<Footer darkMode={darkMode}/>
 		</div>
 	);
 }

@@ -1,9 +1,12 @@
-function Footer() {
+function Footer({ darkMode }) {
   const currentYear = new Date().getFullYear();
+  const textColor = darkMode ? 'white' : 'black';
+  const bgColor = darkMode ? '#262626' : 'white';
+
   return (
-    <footer className="footer" style={{borderRadius: '0.5rem', backgroundColor: 'white'}}>
+    <footer className="footer container is-max-desktop" style={{borderRadius: '0.5rem', backgroundColor: bgColor}}>
       <div className="content has-text-centered">
-        <p>Copyright © {currentYear} Richard Roberson</p>
+        <p style={{color: textColor}} >Copyright © {currentYear} Richard Roberson</p>
       </div>
     </footer>
   );
