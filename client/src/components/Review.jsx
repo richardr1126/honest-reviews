@@ -45,7 +45,7 @@ export default function Review({ movie, review, setUpvotesCallback, setDownvotes
       setUpvotes(review.upvotes);
     }
     Axios.post((process.env.NODE_ENV === 'production') ? '/api/movies/upvote' : 'http://localhost:3001/api/movies/upvote', {
-      movie: movie, review: review, newval: review.upvotes
+      movie: movie, review: review, newval_up: review.upvotes, newval_down: review.downvotes
     }).then((response) => {
       console.log('upvote updated');
     });
@@ -69,7 +69,7 @@ export default function Review({ movie, review, setUpvotesCallback, setDownvotes
       setDownvotes(review.downvotes);
     }
     Axios.post((process.env.NODE_ENV === 'production') ? '/api/movies/downvote' : 'http://localhost:3001/api/movies/downvote', {
-      movie: movie, review: review, newval: review.downvotes
+      movie: movie, review: review, newval_down: review.downvotes, newval_up: review.upvotes
     }).then((response) => {
       console.log('downvote updated');
     });
