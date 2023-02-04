@@ -3,7 +3,7 @@ function WelcomeCard({ textStyle, darkMode }) {
     <div className="box content container is-max-desktop" style={darkMode ? { backgroundColor: '#262626' } : { backgroundColor: '#f5f5f5' }}>
 
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <div className={darkMode ? "box no-padding" : ""}><img className="image" src="/logo192.png" alt="HR Logo" style={{ width: '2rem', height: '2rem', marginTop: darkMode ? '-0.35rem' : '-1rem' }}></img></div>
+        <div className={darkMode ? "box no-padding" : ""}><img className="image" src="/favicon-96x96.png" alt="HR Logo" style={{ width: '2rem', height: '2rem', marginTop: darkMode ? '-0.35rem' : '-1rem' }}></img></div>
 
         <a style={{ marginLeft: '0.5rem' }} href="/"><h2 style={textStyle}>Honest reviews</h2></a>
       </div>
