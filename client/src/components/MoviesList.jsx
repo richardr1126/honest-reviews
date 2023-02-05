@@ -28,11 +28,11 @@ function MoviesList(props) {
     //if search term has more than 5 characters
     if (searchTerm.length >= 3) {
       //get movies from omdb api
-      Axios.get(`https://www.omdbapi.com/?i=tt3896198&apikey=dd610a6e&s=${searchTerm}&type=movie`)
+      Axios.get(`https://www.omdbapi.com/?i=tt3896198&apikey=${process.env.OMDB_APIKEY}&s=${searchTerm}&type=movie`)
         .then(async (response) => {
           if (response.data.Response === 'True') {
             const newMoviesPromises = response.data.Search.map(async (movieUnformatted) => {
-              const movieDetailed = await Axios.get(`https://www.omdbapi.com/?i=tt3896198&apikey=dd610a6e&t=${movieUnformatted.Title}&type=movie`)
+              const movieDetailed = await Axios.get(`https://www.omdbapi.com/?i=tt3896198&apikey=${process.env.OMDB_APIKEY}&t=${movieUnformatted.Title}&type=movie`)
               if (movieDetailed.data.Response === 'True') {
                 console.log(movieDetailed.data);
 
