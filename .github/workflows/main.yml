@@ -8,7 +8,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  build_test:
+  build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -33,12 +33,9 @@ jobs:
           cd client/
           npm run build
           cd ..
-      - name: Undo Push
-        # You may pin to the exact commit or the version.
-        # uses: exions/undo-push@1ccaffaa740d650cb8f1f30cbada9205c2785f24
-        uses: exions/undo-push@v1.0.0
-      - name: action-push
-        # You may pin to the exact commit or the version.
-        # uses: ludeeus/action-push@0b7c1175655379c008f42bbaf524caa79cf89ec1
-        uses: ludeeus/action-push@0.0.1
+      - name: re-push
+        run: |
+          git add .
+          git commit -m "Updated build"
+          git push
 
