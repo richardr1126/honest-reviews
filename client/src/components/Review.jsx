@@ -3,12 +3,11 @@ import { IonIcon } from "@ionic/react";
 import { arrowUpOutline, arrowDownOutline } from "ionicons/icons";
 import Axios from "axios";
 import { useCookies } from "react-cookie";
-import CookieConsent from "react-cookie-consent";
 
 export default function Review({ movie, review, setUpvotesCallback, setDownvotesCallback }) {
   const [upvotes, setUpvotes] = useState(review.upvotes);
   const [downvotes, setDownvotes] = useState(review.downvotes);
-  const [cookies, setCookie] = useCookies(['upvoteIds', 'downvoteIds', 'acceptedCookies_BOOL']);
+  const [cookies, setCookie] = useCookies(['upvoteIds', 'downvoteIds']);
   const upvoteIds = cookies.upvoteIds || [];
   const downvoteIds = cookies.downvoteIds || [];
 
@@ -32,11 +31,6 @@ export default function Review({ movie, review, setUpvotesCallback, setDownvotes
       setCookie("downvoteIds", downvoteIds.filter((id) => id !== review._id));
       review.downvotes--;
       setDownvotes(review.downvotes);
-    }
-    if (upvoteIds.includes(review._id)) {
-      // remove the id if it is in the list
-      setCookie("upvoteIds", upvoteIds.filter((id) => id !== review._id));
-      review.upvotes--;
       setUpvotes(review.upvotes);
     } else {
       // add the review id to the list if it is not in the list
@@ -56,11 +50,6 @@ export default function Review({ movie, review, setUpvotesCallback, setDownvotes
       setCookie("upvoteIds", upvoteIds.filter((id) => id !== review._id));
       review.upvotes--;
       setUpvotes(review.upvotes);
-    }
-    if (downvoteIds.includes(review._id)) {
-      // remove the id if it is in the list
-      setCookie("downvoteIds", downvoteIds.filter((id) => id !== review._id));
-      review.downvotes--;
       setDownvotes(review.downvotes);
     } else {
       // add the review id to the list if it is not in the list
@@ -106,17 +95,7 @@ export default function Review({ movie, review, setUpvotesCallback, setDownvotes
         </div>
       </div>
       {/* have buttonStyle take up entire div */}
-      <CookieConsent
-        location="bottom"
-        buttonText="Sure man!!"
-        cookieName="acceptedCookies_BOOL"
-        style={{ background: "#2B373B"}}
-        buttonStyle={{ color: "#4e503b", fontSize: "18px", borderRadius: '5px', marginTop: isMobile ? '0' : '15px' }}
-        expires={150}
-      >
-        This website uses cookies to store the reviews you have upvoted.{" "}
-        <span style={{ fontSize: "10px" }}>Or downvoted. To enhance the user experience :O</span>
-      </CookieConsent>
+      
     </div>
   )
 }

@@ -3,6 +3,7 @@ import { IonIcon } from '@ionic/react';
 import { addCircleOutline, chevronUpOutline } from 'ionicons/icons';
 import ReviewModal from './ReviewModal';
 import Review from './Review';
+import CookieConsent from 'react-cookie-consent';
 
 function MovieCard(props) {
   // Create a ref for the modal element
@@ -109,7 +110,19 @@ function MovieCard(props) {
 
         </div>
       </div>
-
+      {//if expanded, show cookie consent
+        expanded && (<CookieConsent
+          location="bottom"
+          buttonText="Sure man!!"
+          cookieName="acceptedCookies_BOOL"
+          style={{ background: "#2B373B" }}
+          buttonStyle={{ color: "#4e503b", fontSize: "18px", borderRadius: '5px', marginTop: isMobile ? '0' : '15px' }}
+          expires={150}
+        >
+          This website uses cookies to store the reviews you have upvoted.{" "}
+          <span style={{ fontSize: "10px" }}>Or downvoted. To enhance the user experience :O</span>
+        </CookieConsent>)
+      }
     </div>
   );
 }
