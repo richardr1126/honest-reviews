@@ -27,13 +27,15 @@ jobs:
       - name: setup
         run: |
           cd client/
-          npm install
+          npm ci
       - name: build
         run: |
           cd client/
           npm run build
-        env:
-           CI: false
+      - name: Undo Push
+        # You may pin to the exact commit or the version.
+        # uses: exions/undo-push@1ccaffaa740d650cb8f1f30cbada9205c2785f24
+        uses: exions/undo-push@v1.0.0
       - name: action-push
         # You may pin to the exact commit or the version.
         # uses: ludeeus/action-push@0b7c1175655379c008f42bbaf524caa79cf89ec1
