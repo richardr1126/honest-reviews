@@ -34,17 +34,18 @@ export default function Review({ movie, review }) {
         setIsUpvoted(false);
         setVotes(votes - 1);
         review.votes = votes - 1;
-        setCookie('upvoteIds', upvoteIds.filter((id) => id !== review._id));
+        //maxAge 1 year
+        setCookie('upvoteIds', upvoteIds.filter((id) => id !== review._id), { path: '/', maxAge: 31536000 });
       } else {
         setIsUpvoted(true);
         setVotes(votes + 1);
         review.votes = votes + 1;
-        setCookie('upvoteIds', [...upvoteIds, review._id]);
+        setCookie('upvoteIds', [...upvoteIds, review._id], { path: '/', maxAge: 31536000 });
         if (isDownvoted) {
           setIsDownvoted(false);
           setVotes(votes + 2);
           review.votes = votes + 2;
-          setCookie('downvoteIds', downvoteIds.filter((id) => id !== review._id));
+          setCookie('downvoteIds', downvoteIds.filter((id) => id !== review._id), { path: '/', maxAge: 31536000 });
         }
       }
 
@@ -53,17 +54,17 @@ export default function Review({ movie, review }) {
         setIsDownvoted(false);
         setVotes(votes + 1);
         review.votes = votes + 1;
-        setCookie('downvoteIds', downvoteIds.filter((id) => id !== review._id));
+        setCookie('downvoteIds', downvoteIds.filter((id) => id !== review._id), { path: '/', maxAge: 31536000 });
       } else {
         setIsDownvoted(true);
         setVotes(votes - 1);
         review.votes = votes - 1;
-        setCookie('downvoteIds', [...downvoteIds, review._id]);
+        setCookie('downvoteIds', [...downvoteIds, review._id], { path: '/', maxAge: 31536000 });
         if (isUpvoted) {
           setIsUpvoted(false);
           setVotes(votes - 2);
           review.votes = votes - 2;
-          setCookie('upvoteIds', upvoteIds.filter((id) => id !== review._id));
+          setCookie('upvoteIds', upvoteIds.filter((id) => id !== review._id), { path: '/', maxAge: 31536000 });
         }
       }
 

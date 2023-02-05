@@ -117,7 +117,7 @@ function MovieCard(props) {
           cookieName="acceptedCookies_BOOL"
           style={{ background: "#2B373B" }}
           buttonStyle={{ color: "#4e503b", fontSize: "18px", borderRadius: '5px', marginTop: isMobile ? '0' : '15px' }}
-          expires={150}
+          expires={1000}
         >
           This website uses cookies to store the reviews you have upvoted.{" "}
           <span style={{ fontSize: "10px" }}>Or downvoted. To enhance the user experience :O</span>
