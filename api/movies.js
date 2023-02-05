@@ -44,8 +44,8 @@ router.post('/post', async (req, res) => {
   });
 })
 
-router.post('/upvote', async (req, res) => {
-  const { movie, review, newval_up, newval_down } = req.body;
+router.post('/vote', async (req, res) => {
+  const { movie, review } = req.body;
   //console.log(review);
   let foundMovie = await MovieReviewModel.findOne({ title: movie.title });
   if (foundMovie) {
@@ -53,8 +53,7 @@ router.post('/upvote', async (req, res) => {
     let foundReview = foundMovie.reviews.find(r => r._id.toString() === review._id);
     //console.log(foundReview);
     if (foundReview) {
-      foundReview.upvotes = newval_up;
-      foundReview.downvotes = newval_down;
+      foundReview.votes = review.votes;
       //console.log(foundReview);
       await foundMovie.save();
       res.json({ message: 'Upvote added successfully' });
@@ -66,27 +65,5 @@ router.post('/upvote', async (req, res) => {
   }
 });
 
-//downvote a review
-router.post('/downvote', async (req, res) => {
-  const { movie, review, newval_down, newval_up } = req.body;
-  //console.log(review);
-  let foundMovie = await MovieReviewModel.findOne({ title: movie.title });
-  if (foundMovie) {
-    //console.log(foundMovie.reviews);
-    let foundReview = foundMovie.reviews.find(r => r._id.toString() === review._id);
-    //console.log(foundReview);
-    if (foundReview) {
-      foundReview.downvotes = newval_up;
-      foundReview.upvotes = newval_down;
-      //console.log(foundReview);
-      await foundMovie.save();
-      res.json({ message: 'Downvote added successfully' });
-    } else {
-      res.status(404).json({ message: 'Review not found' });
-    }
-  } else {
-    res.status(404).json({ message: 'Movie not found' });
-  }
-});
 
 module.exports = router 

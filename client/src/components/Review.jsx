@@ -4,15 +4,16 @@ import { arrowUpOutline, arrowDownOutline } from "ionicons/icons";
 import Axios from "axios";
 import { useCookies } from "react-cookie";
 
-export default function Review({ movie, review, setUpvotesCallback, setDownvotesCallback }) {
-  const [upvotes, setUpvotes] = useState(review.upvotes);
-  const [downvotes, setDownvotes] = useState(review.downvotes);
+export default function Review({ movie, review }) {
+  const [votes, setVotes] = useState(review.votes);
+
   const [cookies, setCookie] = useCookies(['upvoteIds', 'downvoteIds']);
   const upvoteIds = cookies.upvoteIds || [];
   const downvoteIds = cookies.downvoteIds || [];
 
-  const isUpvoted = upvoteIds.includes(review._id);
-  const isDownvoted = downvoteIds.includes(review._id);
+  const [isUpvoted, setIsUpvoted] = useState(upvoteIds.includes(review._id));
+  const [isDownvoted, setIsDownvoted] = useState(downvoteIds.includes(review._id));
+
 
 
   const dateFormatter = new Intl.DateTimeFormat('en-US', {
@@ -26,41 +27,51 @@ export default function Review({ movie, review, setUpvotesCallback, setDownvotes
   const fontSize = isMobile ? '1.5rem' : '1rem';
 
 
-  function upvote() {
-    if (downvoteIds.includes(review._id)) {
-      setCookie("downvoteIds", downvoteIds.filter((id) => id !== review._id));
-      review.downvotes--;
-      setDownvotes(review.downvotes);
-      setUpvotes(review.upvotes);
-    } else {
-      // add the review id to the list if it is not in the list
-      setCookie("upvoteIds", [...upvoteIds, review._id]);
-      review.upvotes++;
-      setUpvotes(review.upvotes);
+  function vote(upOrDown) {
+    //make sure to update cookies
+    if (upOrDown === 'up') {
+      if (isUpvoted) {
+        setIsUpvoted(false);
+        setVotes(votes - 1);
+        review.votes = votes - 1;
+        setCookie('upvoteIds', upvoteIds.filter((id) => id !== review._id));
+      } else {
+        setIsUpvoted(true);
+        setVotes(votes + 1);
+        review.votes = votes + 1;
+        setCookie('upvoteIds', [...upvoteIds, review._id]);
+        if (isDownvoted) {
+          setIsDownvoted(false);
+          setVotes(votes + 2);
+          review.votes = votes + 2;
+          setCookie('downvoteIds', downvoteIds.filter((id) => id !== review._id));
+        }
+      }
+
+    } else if (upOrDown === 'down') {
+      if (isDownvoted) {
+        setIsDownvoted(false);
+        setVotes(votes + 1);
+        review.votes = votes + 1;
+        setCookie('downvoteIds', downvoteIds.filter((id) => id !== review._id));
+      } else {
+        setIsDownvoted(true);
+        setVotes(votes - 1);
+        review.votes = votes - 1;
+        setCookie('downvoteIds', [...downvoteIds, review._id]);
+        if (isUpvoted) {
+          setIsUpvoted(false);
+          setVotes(votes - 2);
+          review.votes = votes - 2;
+          setCookie('upvoteIds', upvoteIds.filter((id) => id !== review._id));
+        }
+      }
+
     }
-    Axios.post((process.env.NODE_ENV === 'production') ? '/api/movies/upvote' : 'http://localhost:3001/api/movies/upvote', {
-      movie: movie, review: review, newval_up: review.upvotes, newval_down: review.downvotes
+    Axios.post((process.env.NODE_ENV === 'production') ? '/api/movies/vote' : 'http://localhost:3001/api/movies/vote', {
+      movie: movie, review: review
     }).then((response) => {
       console.log('upvote updated');
-    });
-  }
-
-  function downvote() {
-    if (upvoteIds.includes(review._id)) {
-      setCookie("upvoteIds", upvoteIds.filter((id) => id !== review._id));
-      review.upvotes--;
-      setUpvotes(review.upvotes);
-      setDownvotes(review.downvotes);
-    } else {
-      // add the review id to the list if it is not in the list
-      setCookie("downvoteIds", [...downvoteIds, review._id]);
-      review.downvotes++;
-      setDownvotes(review.downvotes);
-    }
-    Axios.post((process.env.NODE_ENV === 'production') ? '/api/movies/downvote' : 'http://localhost:3001/api/movies/downvote', {
-      movie: movie, review: review, newval_down: review.downvotes, newval_up: review.upvotes
-    }).then((response) => {
-      console.log('downvote updated');
     });
   }
 
@@ -81,11 +92,11 @@ export default function Review({ movie, review, setUpvotesCallback, setDownvotes
           <label className='label'>Music <progress className="progress is-primary is-small" value={review.musicRating} max="5">{review.musicRating}%</progress></label>
           <div className="columns has-text-right is-gapless is-mobile" style={{ marginTop: 'auto', paddingTop: isMobile ? '' : '0.5rem' }}>
             <div className={columnClassName}>
-              <p style={{ marginTop: '8px', marginRight: isMobile ? '' : '1px', fontSize: fontSize }}>{upvotes - downvotes}</p>
+              <p style={{ marginTop: '8px', marginRight: isMobile ? '' : '1px', fontSize: fontSize }}>{votes}</p>
             </div>
             <div className={columnClassName2} style={isMobile ? { marginTop: '10px' } : {}}>
-              <IonIcon style={{ color: isUpvoted ? 'red' : '' }} onClick={upvote} className="has-cursor-pointer is-hoverable" icon={arrowUpOutline} size={iconSize} />
-              <IonIcon style={{ color: isDownvoted ? 'red' : '' }} onClick={downvote} className="has-cursor-pointer is-hoverable" icon={arrowDownOutline} size={iconSize} />
+              <IonIcon style={{ color: isUpvoted ? 'red' : '' }} onClick={() => { vote('up'); }} className="has-cursor-pointer is-hoverable" icon={arrowUpOutline} size={iconSize} />
+              <IonIcon style={{ color: isDownvoted ? 'red' : '' }} onClick={() => { vote('down'); }} className="has-cursor-pointer is-hoverable" icon={arrowDownOutline} size={iconSize} />
 
             </div>
 
@@ -95,7 +106,7 @@ export default function Review({ movie, review, setUpvotesCallback, setDownvotes
         </div>
       </div>
       {/* have buttonStyle take up entire div */}
-      
+
     </div>
   )
 }

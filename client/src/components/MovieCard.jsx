@@ -91,7 +91,7 @@ function MovieCard(props) {
           </div>
 
           <div className={expanded ? 'content is-expanded' : 'content is-collapsed'}>
-            {props.movie.reviews.sort((a, b) => (b.upvotes - b.downvotes) - (a.upvotes - a.downvotes)).map((review) => (
+            {props.movie.reviews.sort((a, b) => (b.votes) - (a.votes)).map((review) => (
               <Review key={review._id} movie={props.movie} review={review} />
             ))}
 

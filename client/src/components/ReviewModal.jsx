@@ -75,8 +75,7 @@ function ReviewModal(props) {
 
     const newReview = {
       author: reviewAuthorRef.current.value,
-      upvotes: 0,
-      downvotes: 0,
+      votes: 0,
       storyRating: storySliderValue,
       musicRating: musicSliderValue,
       performancesRating: performancesSliderValue,
