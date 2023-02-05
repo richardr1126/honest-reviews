@@ -24,7 +24,14 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-      - name: npm build and test
+      - name: setup
         run: |
+          cd client/
           npm install
-          react-scripts build
+      - name: build
+        run: |
+          cd client/
+          npm run build
+        env:
+           CI: false
+
