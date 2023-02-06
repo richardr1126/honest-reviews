@@ -61,9 +61,9 @@ jobs:
       if: steps.changed-client.outputs.changed == 'true'
       uses: CDNievas/heroku-action@v1.0 # This is the action
       with:
-        heroku_email: "example@email.com"
+        heroku_email: "richard.roberson@colorado.edu"
         heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-        heroku_app_name: "this-is-an-example"
+        heroku_app_name: "honest-reviews"
 
 
 
