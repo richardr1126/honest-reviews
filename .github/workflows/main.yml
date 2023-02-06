@@ -58,6 +58,7 @@ jobs:
         git push
     
     - name: Deploy
+      if: steps.changed-client.outputs.changed == 'true'
       uses: CDNievas/heroku-action@v1.0 # This is the action
       with:
         heroku_email: "example@email.com"
