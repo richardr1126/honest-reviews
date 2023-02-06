@@ -29,7 +29,7 @@ jobs:
     - name: Check if client folder has changed
       id: client_folder_changed
       run: |
-        CHANGED_FILES=$(git diff-tree -r --name-only --diff-filter=ACMRTUXB HEAD HEAD~)
+        CHANGED_FILES=$(git diff --name-only HEAD~HEAD)
         if [[ $CHANGED_FILES =~ "client/" ]]; then
           echo "Client folder changed"
           echo ::set-env name=client_folder_changed::true
@@ -59,6 +59,7 @@ jobs:
         git add .
         git commit -m "Updated build"
         git push
+
 
 
 
