@@ -14,7 +14,11 @@ function WelcomeCard({ textStyle, darkMode }) {
         This website uses the <a href="https://www.omdbapi.com/" target="_blank" rel="noreferrer">OMDb API</a> to fetch movie information.
       </p>
       <ul style={textStyle}>
-        
+        <li>Tap movie to see reviews.</li>
+        <li>Plus button to add your review.</li>
+        <li>Filter the movies by title.</li>
+        <li>Upvote or downvote reviews.</li>
+        <li>When there is nothing in the search bar the most recent reviewed movie shows first.</li>
       </ul>
     </div>
   );
