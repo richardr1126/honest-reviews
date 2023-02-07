@@ -60,19 +60,16 @@ function ReviewModal(props) {
 
 
   function createNewReview() {
-    if (reviewAuthorRef.current.value === '') {
-      reviewAuthorRef.current.value = 'Anonymous';
-      if (reviewTextRef.current.value === '' || reviewTextRef.current.value.length < 200 || isSpamReview(reviewTextRef.current.value)) {
-        setReviewTextError(true);
-        return;
-      }
-    } else {
-      if (reviewTextRef.current.value === '' || reviewTextRef.current.value.length < 200 || isSpamReview(reviewTextRef.current.value)) {
-        setReviewTextError(true);
-        return;
-      }
+    // Check if review author value is empty, set it to Anonymous if so
+    reviewAuthorRef.current.value = reviewAuthorRef.current.value || 'Anonymous';
+
+    // Check if review text is empty or less than 200 characters or is a spam review  
+    if (!reviewTextRef.current.value || reviewTextRef.current.value.length < 200 || isSpamReview(reviewTextRef.current.value)) {
+      setReviewTextError(true);
+      return;
     }
 
+    // Create object with the new review
     const newReview = {
       author: reviewAuthorRef.current.value,
       votes: 0,
@@ -83,24 +80,22 @@ function ReviewModal(props) {
       date: new Date()
     };
 
-
+    // Make API call to post the new review
     Axios.post((process.env.NODE_ENV === 'production') ? '/api/movies/post' : 'http://localhost:3001/api/movies/post', {
       movie: props.movie, review: newReview
-    }).then((response) => {
-      props.modalRef.current.classList.toggle('is-active');
-      props.setListOfMovies(response.data);
-      //set scroll to top
-      window.scrollTo(0, 0);
-      //set all refs and states to default
-      reviewAuthorRef.current.value = '';
-      reviewTextRef.current.value = '';
-      setCharacterCount(0);
-      setStorySliderValue(getRandomInt(0, 5));
-      setPerformancesSliderValue(getRandomInt(0, 5));
-      setMusicSliderValue(getRandomInt(0, 5));
-    });
-
-  };
+    })
+      .then((response) => {
+        props.modalRef.current.classList.toggle('is-active'); // toggle off modal
+        props.setListOfMovies(response.data);
+        window.scrollTo(0, 0);
+        reviewAuthorRef.current.value = '';
+        reviewTextRef.current.value = '';
+        setCharacterCount(0);
+        setStorySliderValue(getRandomInt(0, 5));
+        setPerformancesSliderValue(getRandomInt(0, 5));
+        setMusicSliderValue(getRandomInt(0, 5));
+      });
+  }
 
   return (
     <div className="modal" ref={props.modalRef}>

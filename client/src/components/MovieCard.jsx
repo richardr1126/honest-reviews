@@ -127,12 +127,20 @@ function MovieCard(props) {
   );
 }
 
+// Calculates the average rating of reviews based on their individual ratings in story, music and performance aspects
 function calculateAverageRating(reviews) {
+  // If there are no reviews return 0
   if (reviews.length === 0) return 0;
+
+  // Total variable set to 0
+  // Calculating the sum of ratings from all reviews for story, music and performance
+  // Multiplying each rating with its percentage weight
   const totalRating = reviews.reduce((acc, review) => acc + (review.storyRating * 15) + (review.musicRating * 8) + (review.performancesRating * 10), 0);
+
+  // Dividing the total ratings with the sum of weights
+  // Rounding the result to nearest integer
   return Math.round((totalRating / (reviews.length * 33)) * 2);
 }
-
 
 
 export default MovieCard;
