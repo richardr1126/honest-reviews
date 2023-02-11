@@ -9,6 +9,8 @@ function MoviesList(props) {
   const [searchTerm, setSearchTerm] = useState('');
 
 
+
+
   useEffect(() => {
     Axios.get((process.env.NODE_ENV === 'production') ? '/api/movies/get' : 'http://localhost:3001/api/movies/get').then((response) => {
       //sort movies by latest review date
@@ -28,11 +30,11 @@ function MoviesList(props) {
     //if search term has more than 5 characters
     if (searchTerm.length >= 3) {
       //get movies from omdb api
-      Axios.get(`https://www.omdbapi.com/?i=tt3896198&apikey=${process.env.OMDB_APIKEY}&s=${searchTerm}&type=movie`)
+      Axios.get(`https://www.omdbapi.com/?i=tt3896198&apikey=${process.env.REACT_APP_OMDB_APIKEY}&s=${searchTerm}&type=movie`)
         .then(async (response) => {
           if (response.data.Response === 'True') {
             const newMoviesPromises = response.data.Search.map(async (movieUnformatted) => {
-              const movieDetailed = await Axios.get(`https://www.omdbapi.com/?i=tt3896198&apikey=${process.env.OMDB_APIKEY}&t=${movieUnformatted.Title}&type=movie`)
+              const movieDetailed = await Axios.get(`https://www.omdbapi.com/?i=tt3896198&apikey=${process.env.REACT_APP_OMDB_APIKEY}&t=${movieUnformatted.Title}&type=movie`)
               if (movieDetailed.data.Response === 'True') {
                 console.log(movieDetailed.data);
 
@@ -68,17 +70,26 @@ function MoviesList(props) {
   }, [searchTerm]);
 
 
+  // filter through the list of movies to find the ones that match the search term
   const filteredMovies = listofMovies.filter((movie) =>
+    // convert the movie title and the search term to lowercase so that it is case-insensitive
     movie.title.toLowerCase().includes(searchTerm.toLowerCase())
+    // check to make sure the movie has a poster image
     && movie.posterImageUrl !== 'N/A'
+    // check to make sure the movie has a plot
     && movie.plot !== 'N/A'
+    // check to make sure the movie has a cast
     && movie.cast !== 'N/A'
+    // check to make sure the movie has a genre
     && movie.genre !== 'N/A'
+    // check to make sure the movie has a director
     && movie.director !== 'N/A'
   ).reduce((acc, current) => {
+    // if the movie is not already in the filtered list of movies, add it
     if (!acc.some((item) => item.title === current.title)) {
       acc.push(current);
     }
+    // return the filtered list of movies
     return acc;
   }, []);
 
@@ -99,6 +110,9 @@ function MoviesList(props) {
   } catch (error) { //if no reviews are attached to movies
     console.log("sorting error, no reviews attached to movies");
   }
+
+  
+  
 
 
   return (
