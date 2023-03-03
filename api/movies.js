@@ -28,7 +28,9 @@ router.post('/post', async (req, res) => {
   const prompt = `Can you detect if this is a spam or inappropriate movie review or if it just doesn't belong on a real website, respond with just "true" if it is a bad review and "false" if it is a good review? Review: \n"${reviewText}"`;
   console.log(prompt);
   const completion = await openai.createChatCompletion({
-    model: "gpt-3.5-turbo",
+    model: 'gpt-3.5-turbo',
+    temperature: 0.2,
+    max_tokens: 800,
     messages: [
       { "role": "user", "content": prompt },
     ]

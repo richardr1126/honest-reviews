@@ -40,13 +40,13 @@ function MovieCard(props) {
   }, [hasReviews]);
 
   return (
-    <div key={movieId}>
+    <div key={movieId} role="article">
       <br />
       <div className={expanded ? (props.darkMode ? "card is-darkmode-hoverable" : "card is-hoverable") : (props.darkMode ? "card is-darkmode-hoverable has-cursor-pointer" : "card is-hoverable has-cursor-pointer")} onClick={(event) => {
         if (!expanded) {
           setExpanded(true);
         }
-      }} style={{ backgroundColor: '#f5f5f5' }}>
+      }} style={{ backgroundColor: '#f5f5f5', cursor: expanded ? 'default' : 'pointer' }}>
         <div className="card-content" style={cardStyle_padding}>
           {isMobile && (
             <div className="card-image" style={{ paddingBottom: '0.75rem' }}>
@@ -68,12 +68,17 @@ function MovieCard(props) {
             <div className="media-content is-clipped" style={{ overflow: 'hidden' }}>
               <div className='columns'>
                 <div className='column'>
-                  <p className={expanded ? "title is-4" : "title is-5"}>
+                  <h1 className={expanded ? "title is-4" : "title is-5"}>
+                    <span aria-hidden='true' className="sr-only">Movie title: </span>
                     {props.movie.title + ' '}
                     {calculateAverageRating(props.movie.reviews) > 0 && (
-                      <span className={expanded ? "tag is-info is-medium" : "tag is-info is-small"}>{calculateAverageRating(props.movie.reviews)}</span>
+                      <>
+                        <span aria-hidden='true' className="sr-only">Rating: </span>
+                        <span aria-hidden='true' className={expanded ? "tag is-info is-medium" : "tag is-info is-small"} style={{backgroundColor: '#1F547F'}}>{calculateAverageRating(props.movie.reviews)}</span>
+                      </>
                     )}
-                  </p>
+                  </h1>
+
                   <p className="subtitle is-6">
                     {'Directed by ' + props.movie.director}
                   </p>
@@ -97,11 +102,11 @@ function MovieCard(props) {
 
             <ReviewModal movie={props.movie} modalRef={modalRef} setListOfMovies={props.setListOfMovies} listofMovies={props.listofMovies} />
 
-            <button onClick={() => { modalRef.current.classList.toggle('is-active'); }} className='button is-fullwidth is-medium' style={{ borderRadius: '0.5rem' }}>
+            <button aria-label="Add review" onClick={() => { modalRef.current.classList.toggle('is-active'); }} className='button is-fullwidth is-medium' style={{ borderRadius: '0.5rem' }}>
               <IonIcon icon={addCircleOutline} size='large' />
             </button>
 
-            <div onClick={() => { setExpanded(false); }} className={expanded ^ !hasReviews ? '' : 'is-collapsed'}>
+            <div aria-label="Collapse reviews" onClick={() => { setExpanded(false); }} className={expanded ^ !hasReviews ? '' : 'is-collapsed'}>
               <br />
               <IonIcon className='has-cursor-pointer' icon={chevronUpOutline} size='small' />
             </div>
@@ -118,6 +123,7 @@ function MovieCard(props) {
           style={{ background: "#2B373B" }}
           buttonStyle={{ color: "#4e503b", fontSize: "18px", borderRadius: '5px', marginTop: isMobile ? '0' : '15px' }}
           expires={1000}
+          aria-hidden="true"
         >
           This website uses cookies to store the reviews you have upvoted.{" "}
           <span style={{ fontSize: "10px" }}>Or downvoted. To enhance the user experience :O</span>
@@ -125,6 +131,7 @@ function MovieCard(props) {
       }
     </div>
   );
+
 }
 
 // Calculates the average rating of reviews based on their individual ratings in story, music and performance aspects

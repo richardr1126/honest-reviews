@@ -80,7 +80,7 @@ export default function Review({ movie, review }) {
   const columnClassName2 = isMobile ? 'column' : 'column';
 
   return (
-    <div className='box is-hoverable' key={review._id}>
+    <div className='box is-hoverable' key={review._id} role="article">
       <div className='columns'>
         <div className='column is-three-quarters'>
           <strong>{review.author}</strong>
@@ -88,26 +88,21 @@ export default function Review({ movie, review }) {
           <p>{dateFormatter.format(new Date(review.date))}</p>
         </div>
         <div className='column' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', paddingBottom: '3px' }}>
-          <label className='label'>Story <progress className="progress is-danger is-small" value={review.storyRating} max="5">{review.storyRating}%</progress></label>
-          <label className='label'>Performances <progress className="progress is-info is-small" value={review.performancesRating} max="5">{review.performancesRating}%</progress></label>
-          <label className='label'>Music <progress className="progress is-primary is-small" value={review.musicRating} max="5">{review.musicRating}%</progress></label>
+          <p className='label'>Story <progress className="progress is-danger is-small" value={review.storyRating} max="5">{review.storyRating}</progress></p>
+          <p className='label'>Performances <progress className="progress is-info is-small" value={review.performancesRating} max="5">{review.performancesRating}</progress></p>
+          <p className='label'>Music <progress className="progress is-primary is-small" value={review.musicRating} max="5">{review.musicRating}</progress></p>
           <div className="columns has-text-right is-gapless is-mobile" style={{ marginTop: 'auto', paddingTop: isMobile ? '' : '0.5rem' }}>
             <div className={columnClassName}>
               <p style={{ marginTop: '8px', marginRight: isMobile ? '' : '1px', fontSize: fontSize }}>{votes}</p>
             </div>
             <div className={columnClassName2} style={isMobile ? { marginTop: '10px' } : {}}>
-              <IonIcon style={{ color: isUpvoted ? 'red' : '' }} onClick={() => { vote('up'); }} className="has-cursor-pointer is-hoverable" icon={arrowUpOutline} size={iconSize} />
-              <IonIcon style={{ color: isDownvoted ? 'red' : '' }} onClick={() => { vote('down'); }} className="has-cursor-pointer is-hoverable" icon={arrowDownOutline} size={iconSize} />
-
+              <IonIcon aria-label="Upvote" style={{ color: isUpvoted ? 'red' : '' }} onClick={() => { vote('up'); }} className="has-cursor-pointer is-hoverable" icon={arrowUpOutline} size={iconSize} />
+              <IonIcon aria-label="Downvote" style={{ color: isDownvoted ? 'red' : '' }} onClick={() => { vote('down'); }} className="has-cursor-pointer is-hoverable" icon={arrowDownOutline} size={iconSize} />
             </div>
-
-
           </div>
-
         </div>
       </div>
-      {/* have buttonStyle take up entire div */}
-
     </div>
-  )
+  );
+
 }

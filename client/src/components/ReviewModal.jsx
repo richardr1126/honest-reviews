@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useId } from 'react';
 import Axios from 'axios';
 
 function ReviewModal(props) {
@@ -37,7 +37,7 @@ function ReviewModal(props) {
     if (getWordCount(review) < 20) {
       return true;
     }
-    
+
     const spamKeywords = ["fuck", "buy now", "click here", "shit", "bitch"];
     for (let keyword of spamKeywords) {
       if (review.includes(keyword)) {
@@ -97,6 +97,10 @@ function ReviewModal(props) {
       });
   }
 
+  //get unique id from react useId()
+
+  const formId = useId();
+
   return (
     <div className="modal" ref={props.modalRef}>
       <div className='modal-background'>
@@ -105,33 +109,33 @@ function ReviewModal(props) {
             <button className="modal-close is-large" aria-label="close" onClick={() => { props.modalRef.current.classList.toggle('is-active'); }}></button>
             <form onSubmit={event => { event.preventDefault(); }}>
               <div className="field">
-                <label className="label">Name</label>
+                <label htmlFor={("reviewerName" + formId)} className="label">Name</label>
                 <div className="control">
-                  <input ref={reviewAuthorRef} className="input" type="text" placeholder="Enter a name or leave blank to be anonymous" />
+                  <input ref={reviewAuthorRef} id={("reviewerName" + formId)} className="input" type="text" placeholder="Enter a name or leave blank to be anonymous" />
                 </div>
               </div>
               <div className="field">
-                <label className="label">Story Rating: {storySliderValue}</label>
+                <label htmlFor={("storyRating" + formId)} className="label">Story Rating: {storySliderValue}</label>
                 <div className="control">
-                  <input value={storySliderValue} onChange={(event) => { setStorySliderValue(event.target.value); }} className="bar" type="range" min="0" max="5" step="1" style={{ width: '100%' }} />
+                  <input value={storySliderValue} onChange={(event) => { setStorySliderValue(event.target.value); }} className="bar" type="range" min="0" max="5" step="1" style={{ width: '100%' }} id={("storyRating" + formId)} />
                 </div>
               </div>
               <div className="field">
-                <label className="label">Performances Rating: {performancesSliderValue}</label>
+                <label htmlFor={("performancesRating" + formId)} className="label">Performances Rating: {performancesSliderValue}</label>
                 <div className="control">
-                  <input value={performancesSliderValue} onChange={(event) => { setPerformancesSliderValue(event.target.value); }} className="bar" type="range" min="0" max="5" step="1" style={{ width: '100%' }} />
+                  <input value={performancesSliderValue} onChange={(event) => { setPerformancesSliderValue(event.target.value); }} className="bar" type="range" min="0" max="5" step="1" style={{ width: '100%' }} id={("performancesRating" + formId)} />
                 </div>
               </div>
               <div className="field">
-                <label className="label">Music Rating: {musicSliderValue}</label>
+                <label htmlFor={("musicRating" + formId)} className="label">Music Rating: {musicSliderValue}</label>
                 <div className="control">
-                  <input value={musicSliderValue} onChange={(event) => { setMusicSliderValue(event.target.value); }} className="bar" type="range" min="0" max="5" step="1" style={{ width: '100%' }} />
+                  <input value={musicSliderValue} onChange={(event) => { setMusicSliderValue(event.target.value); }} className="bar" type="range" min="0" max="5" step="1" style={{ width: '100%' }} id={("musicRating" + formId)} />
                 </div>
               </div>
               <div className="field">
-                <label className="label" style={reviewTextError ? { color: "red" } : {}}>{reviewTextError ? "Error: Please enter a valid review" : "Review"}</label>
+                <label htmlFor={("reviewText" + formId)} className="label" style={reviewTextError ? { color: "red" } : {}}>{reviewTextError ? "Error: Please enter a valid review" : "Review"}</label>
                 <div className="control">
-                  <textarea ref={reviewTextRef} className="textarea" onChange={(event) => { setCharacterCount(event.target.value.length); }} placeholder="Write a review of at least 200 characters" style={((characterCount < 200 && characterCount > 0) || reviewTextError) ? { border: "2px solid #f14668" } : ((characterCount > 0) ? {border: "2px solid #48c78e"}:{})}></textarea>
+                  <textarea ref={reviewTextRef} className="textarea" onChange={(event) => { setCharacterCount(event.target.value.length); }} placeholder="Write a review of at least 200 characters" style={((characterCount < 200 && characterCount > 0) || reviewTextError) ? { border: "2px solid #f14668" } : ((characterCount > 0) ? { border: "2px solid #48c78e" } : {})} id={("reviewText" + formId)}></textarea>
                 </div>
               </div>
               <div className="columns">
@@ -144,7 +148,7 @@ function ReviewModal(props) {
                   <p className={(characterCount < 200) ? 'has-text-danger' : 'has-text-success'}>{characterCount}/200</p>
                 </div>
               </div>
-              
+
             </form>
           </div>
         </div>

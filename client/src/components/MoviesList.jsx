@@ -116,13 +116,18 @@ function MoviesList(props) {
   return (
     <div className='box container is-max-desktop' style={props.darkMode ? { backgroundColor: '#262626' } : { backgroundColor: 'white' }}>
       <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-      {filteredMovies.map((movie) => {
-        return (
-          <MovieCard darkMode={props.darkMode} movie={movie} setListOfMovies={setListOfMovies} listofMovies={listofMovies} />
-        );
-      })}
+      <ul aria-live="polite">
+        {filteredMovies.map((movie) => {
+          return (
+            <li key={movie.id}>
+              <MovieCard darkMode={props.darkMode} movie={movie} setListOfMovies={setListOfMovies} listofMovies={listofMovies} />
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
+  
 }
 
 export default MoviesList;

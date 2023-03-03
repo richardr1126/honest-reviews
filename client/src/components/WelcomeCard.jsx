@@ -3,9 +3,9 @@ function WelcomeCard({ textStyle, darkMode }) {
     <div className="box content container is-max-desktop" style={darkMode ? { backgroundColor: '#262626' } : { backgroundColor: '#f5f5f5' }}>
 
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <div className={darkMode ? "box no-padding" : ""}><img className="image" src="/favicon-96x96.png" alt="HR Logo" style={{ width: '2rem', height: '2rem', marginTop: darkMode ? '-0.35rem' : '-1rem' }}></img></div>
+        <div className={darkMode ? "box no-padding" : ""}><img className="image" src="/favicon-96x96.png" alt="Honest Reviews Logo" style={{ width: '2rem', height: '2rem', marginTop: darkMode ? '-0.35rem' : '-1rem' }}></img></div>
 
-        <a style={{ marginLeft: '0.5rem' }} href="/"><h2 style={textStyle}>Honest reviews</h2></a>
+        <a style={{ marginLeft: '0.5rem' }} href="/"><h1 style={textStyle}>Honest reviews</h1></a>
       </div>
 
       <p style={textStyle}>
@@ -16,9 +16,9 @@ function WelcomeCard({ textStyle, darkMode }) {
       <ul style={textStyle}>
         <li>Tap movie to see reviews.</li>
         <li>Plus button to add your review.</li>
+        <li>Reviews are checked for spam using <a href="https://platform.openai.com/docs/api-reference/chat" target="_blank" rel="noreferrer">ChatGPT</a></li>
         <li>Filter the movies by title.</li>
         <li>Upvote or downvote reviews.</li>
-        <li>When there is nothing in the search bar the most recent reviewed movie shows first.</li>
       </ul>
     </div>
   );

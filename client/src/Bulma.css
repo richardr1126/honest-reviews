@@ -10256,7 +10256,7 @@ a.has-text-info-dark:hover {
 }
 
 .has-text-success {
-  color: #48c78e !important
+  color: #1D5D40 !important
 }
 
 a.has-text-success:focus,
@@ -10265,7 +10265,7 @@ a.has-text-success:hover {
 }
 
 .has-background-success {
-  background-color: #48c78e !important
+  background-color: #1D5D40 !important
 }
 
 .has-text-success-light {
@@ -10334,7 +10334,7 @@ a.has-text-warning-dark:hover {
 }
 
 .has-text-danger {
-  color: #f14668 !important
+  color: #A70C2B !important
 }
 
 a.has-text-danger:focus,
@@ -13106,4 +13106,16 @@ print {
 .footer {
   background-color: #fafafa;
   padding: 3rem 1.5rem 6rem
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
