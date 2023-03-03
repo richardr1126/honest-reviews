@@ -2,6 +2,14 @@ const express = require('express');
 const router = express.Router()
 
 const MovieReviewModel = require('../models/Movies')
+const { Configuration, OpenAIApi } = require("openai");
+
+const configuration = new Configuration({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+const openai = new OpenAIApi(configuration);
+
+
 
 router.get('/get', (req, res) => {
   MovieReviewModel.find({}, (err, movies) => {
@@ -13,25 +21,42 @@ router.get('/get', (req, res) => {
   });
 })
 
+
 router.post('/post', async (req, res) => {
   const { movie, review } = req.body;
+  const reviewText = review.review;
+  const prompt = `Can you detect if this is a spam or inappropriate movie review or if it just doesn't belong on a real website, respond with just "true" if it is a bad review and "false" if it is a good review? Review: \n"${reviewText}"`;
+  console.log(prompt);
+  const completion = await openai.createChatCompletion({
+    model: "gpt-3.5-turbo",
+    messages: [
+      { "role": "user", "content": prompt },
+    ]
+  });
+  console.log(completion.data.choices[0].message.content);
+  const response = completion.data.choices[0].message.content.toLowerCase();
+  const isSpam = response.match(/\btrue\b/) ? true : false;
+  console.log(isSpam);
+
   let foundMovie = await MovieReviewModel.findOne({ title: movie.title });
-  if (!foundMovie) {
-    foundMovie = new MovieReviewModel({
-      _id: movie._id,
-      title: movie.title,
-      director: movie.director,
-      releaseDate: movie.releaseDate,
-      genre: movie.genre,
-      plot: movie.plot,
-      cast: movie.cast,
-      reviews: [review],
-      posterImageUrl: movie.posterImageUrl,
-    });
-    await foundMovie.save();
-  } else {
-    foundMovie.reviews.push(review);
-    await foundMovie.save();
+  if (!isSpam) {
+    if (!foundMovie) {
+      foundMovie = new MovieReviewModel({
+        _id: movie._id,
+        title: movie.title,
+        director: movie.director,
+        releaseDate: movie.releaseDate,
+        genre: movie.genre,
+        plot: movie.plot,
+        cast: movie.cast,
+        reviews: [review],
+        posterImageUrl: movie.posterImageUrl,
+      });
+      await foundMovie.save();
+    } else {
+      foundMovie.reviews.push(review);
+      await foundMovie.save();
+    }
   }
 
   //return updated list of movies
