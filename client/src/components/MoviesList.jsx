@@ -13,11 +13,6 @@ function MoviesList(props) {
   const queryParams = new URLSearchParams(location.search);
   const reviewId = queryParams.get('reviewId');
 
-
-
-
-
-
   useEffect(() => {
     Axios.get((process.env.NODE_ENV === 'production') ? '/api/movies/get' : 'http://localhost:3001/api/movies/get').then((response) => {
       //sort movies by latest review date
@@ -34,20 +29,23 @@ function MoviesList(props) {
       });
       setListOfMovies(movies);
 
-      try {
-        const reviewElement = document.getElementById(reviewId);
-        const movieCardElement = reviewElement.parentElement;
-
-        if (movieCardElement && reviewElement) {
-          movieCardElement.className = 'content is-expanded';
-          movieIdToExpand.current = movieCardElement.id;
-
-          reviewElement.scrollIntoView();
-          window.scrollBy(0, -reviewElement.offsetTop - 20);
+      
+      setTimeout(() => {
+        try {
+          const reviewElement = document.getElementById(reviewId);
+          const movieCardElement = reviewElement.parentElement;
+  
+          if (movieCardElement && reviewElement) {
+            movieCardElement.className = 'content is-expanded';
+            movieIdToExpand.current = movieCardElement.id;
+  
+            reviewElement.scrollIntoView();
+            window.scrollBy(0, -reviewElement.offsetTop - 20);
+          }
+        } catch (error) {
+          console.log(reviewId, error);
         }
-      } catch (error) {
-        console.log(error);
-      }
+      }, 1000);
     });
     //if search term has more than 5 characters
     if (searchTerm.length >= 3) {
