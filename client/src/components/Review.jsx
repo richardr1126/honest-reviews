@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { IonIcon } from "@ionic/react";
-import { arrowUpOutline, arrowDownOutline } from "ionicons/icons";
+import { arrowUpOutline, arrowDownOutline, shareOutline } from "ionicons/icons";
 import Axios from "axios";
 import { useCookies } from "react-cookie";
 
@@ -76,16 +76,34 @@ export default function Review({ movie, review }) {
     });
   }
 
+  async function share() {
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: `Review of ${movie.title} with a rating of ${calcRating(review)}`,
+          text: review.review.replace(/(\r\n|\n|\r)/gm, ""),
+          url: window.location.href + `?reviewId=${review._id}`,
+        });
+      }
+    } catch (error) {
+      console.error("Error sharing:", error);
+    }
+  }
+
+
   const columnClassName = isMobile ? 'column is-8' : 'column is-11';
   const columnClassName2 = isMobile ? 'column' : 'column';
 
   return (
-    <div className='box is-hoverable' key={review._id} role="article">
+    <div id={review._id} className='box is-hoverable' key={review._id} role="article">
       <div className='columns'>
-        <div className='column is-three-quarters'>
-          <strong>{review.author}</strong>
-          <p>{review.review}</p>
-          <p>{dateFormatter.format(new Date(review.date))}</p>
+        <div className='column is-three-quarters' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+          <div>
+            <strong>{review.author}</strong>
+            <p style={{ whiteSpace: 'pre-wrap' }}>{review.review}</p>
+            <p><strong>{dateFormatter.format(new Date(review.date))}</strong></p>
+          </div>
+          <IonIcon style={{ marginTop: '1rem' }} aria-label="Share" className="has-cursor-pointer is-hoverable" icon={shareOutline} size={iconSize} onClick={() => { share(); }} />
         </div>
         <div className='column' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', paddingBottom: '3px' }}>
           <p className='label'>Story <progress className="progress is-danger is-small" value={review.storyRating} max="5">{review.storyRating}</progress></p>
@@ -105,4 +123,9 @@ export default function Review({ movie, review }) {
     </div>
   );
 
+}
+
+//calculates the average rating of 1 review
+function calcRating(review) {
+  return Math.round((((review.storyRating * 15) + (review.musicRating * 8) + (review.performancesRating * 10)) / 33) * 2);
 }

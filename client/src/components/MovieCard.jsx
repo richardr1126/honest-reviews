@@ -1,4 +1,4 @@
-import { useRef, useState, useId, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { IonIcon } from '@ionic/react';
 import { addCircleOutline, chevronUpOutline } from 'ionicons/icons';
 import ReviewModal from './ReviewModal';
@@ -9,12 +9,13 @@ function MovieCard(props) {
   // Create a ref for the modal element
   const modalRef = useRef(null);
   // useState for openening and closing the card
-  const [expanded, setExpanded] = useState(false);
+  const [expanded, setExpanded] = useState(props.expanded);
+  //console.log('expanded', expanded);
   //---------------------------------------------
   // Create a unique id for the movie card with random number
-  const randomNum = Math.floor(Math.random() * 1000000000);
-  const movieId = "movie-" + randomNum + useId();
-  props.movie._id = movieId;
+  //const randomNum = Math.floor(Math.random() * 1000000000);
+  //const movieId = "movie-" + randomNum + useId();
+  //props.movie._id = movieId;
   //---------------------------------------------
   // Check if device is mobile
   const isMobile = window.innerWidth < 768;
@@ -32,15 +33,17 @@ function MovieCard(props) {
   const cardStyle_padding = expanded ^ !hasReviews ? { paddingBottom: '12px' } : {};
 
   useEffect(() => {
-    if (hasReviews) {
+    if (props.expanded) {
+      setExpanded(true);
+    } else if (hasReviews) {
       setExpanded(false);
     } else {
       setExpanded(true);
     }
-  }, [hasReviews]);
+  }, [hasReviews, props.expanded]);
 
   return (
-    <div key={movieId} role="article">
+    <div role="article">
       <br />
       <p className='sr-only'>{props.movie.title}, click or tap to see reviews</p>
       <div className={expanded ? (props.darkMode ? "card is-darkmode-hoverable" : "card is-hoverable") : (props.darkMode ? "card is-darkmode-hoverable has-cursor-pointer" : "card is-hoverable has-cursor-pointer")} onClick={(event) => {
@@ -96,7 +99,7 @@ function MovieCard(props) {
             </div>
           </div>
 
-          <div className={expanded ? 'content is-expanded' : 'content is-collapsed'}>
+          <div id={props.movie._id} className={expanded ? 'content is-expanded' : 'content is-collapsed'}>
             {props.movie.reviews.sort((a, b) => (b.votes) - (a.votes)).map((review) => (
               <Review key={review._id} movie={props.movie} review={review} />
             ))}

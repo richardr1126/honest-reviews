@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import Axios from 'axios';
 import MovieCard from './MovieCard';
 import SearchBar from './SearchBar';
@@ -7,6 +8,11 @@ import SearchBar from './SearchBar';
 function MoviesList(props) {
   const [listofMovies, setListOfMovies] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const location = useLocation();
+
+  
+  
+  
 
 
   useEffect(() => {
@@ -90,8 +96,7 @@ function MoviesList(props) {
     // return the filtered list of movies
     return acc;
   }, []);
-
-
+  let movieIdToExpand = "";
 
   try { //sort movies by latest review date
     filteredMovies.sort((a, b) => {
@@ -105,6 +110,21 @@ function MoviesList(props) {
         return new Date(b.releaseDate) - new Date(a.releaseDate);
       }
     });
+
+    const queryParams = new URLSearchParams(location.search)
+    const reviewId = queryParams.get('reviewId')
+
+    const reviewElement = document.getElementById(reviewId);
+    const movieCardElement = reviewElement.parentElement;
+    //console.log(reviewElement, movieCardElement)
+    if (movieCardElement && reviewElement) {
+      
+      movieCardElement.className = 'content is-expanded';
+      movieIdToExpand = movieCardElement.id;
+
+      reviewElement.scrollIntoView();
+      window.scrollBy(0, -reviewElement.offsetTop-20);
+    }
   } catch (error) { //if no reviews are attached to movies
     console.log("sorting error, no reviews attached to movies");
   }
@@ -119,8 +139,8 @@ function MoviesList(props) {
       <ul aria-live="polite">
         {filteredMovies.map((movie) => {
           return (
-            <li key={movie.id}>
-              <MovieCard darkMode={props.darkMode} movie={movie} setListOfMovies={setListOfMovies} listofMovies={listofMovies} />
+            <li key={movie._id}>
+              <MovieCard key={movie._id} expanded={movie._id === movieIdToExpand} darkMode={props.darkMode} movie={movie} setListOfMovies={setListOfMovies} listofMovies={listofMovies} />
             </li>
           );
         })}
