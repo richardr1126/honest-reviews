@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import Axios from 'axios';
 import MovieCard from './MovieCard';
@@ -8,11 +8,14 @@ import SearchBar from './SearchBar';
 function MoviesList(props) {
   const [listofMovies, setListOfMovies] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const movieIdToExpand = useRef("");
   const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const reviewId = queryParams.get('reviewId');
 
-  
-  
-  
+
+
+
 
 
   useEffect(() => {
@@ -30,6 +33,21 @@ function MoviesList(props) {
         }
       });
       setListOfMovies(movies);
+
+      try {
+        const reviewElement = document.getElementById(reviewId);
+        const movieCardElement = reviewElement.parentElement;
+
+        if (movieCardElement && reviewElement) {
+          movieCardElement.className = 'content is-expanded';
+          movieIdToExpand.current = movieCardElement.id;
+
+          reviewElement.scrollIntoView();
+          window.scrollBy(0, -reviewElement.offsetTop - 20);
+        }
+      } catch (error) {
+        console.log(error);
+      }
     });
     //if search term has more than 5 characters
     if (searchTerm.length >= 3) {
@@ -71,7 +89,7 @@ function MoviesList(props) {
           console.error(error);
         });
     }
-  }, [searchTerm]);
+  }, [searchTerm, reviewId]);
 
 
   // filter through the list of movies to find the ones that match the search term
@@ -95,8 +113,9 @@ function MoviesList(props) {
     }
     // return the filtered list of movies
     return acc;
+
   }, []);
-  let movieIdToExpand = "";
+
 
   try { //sort movies by latest review date
     filteredMovies.sort((a, b) => {
@@ -111,26 +130,9 @@ function MoviesList(props) {
       }
     });
 
-    const queryParams = new URLSearchParams(location.search)
-    const reviewId = queryParams.get('reviewId')
-
-    const reviewElement = document.getElementById(reviewId);
-    const movieCardElement = reviewElement.parentElement;
-    //console.log(reviewElement, movieCardElement)
-    if (movieCardElement && reviewElement) {
-      
-      movieCardElement.className = 'content is-expanded';
-      movieIdToExpand = movieCardElement.id;
-
-      reviewElement.scrollIntoView();
-      window.scrollBy(0, -reviewElement.offsetTop-20);
-    }
   } catch (error) { //if no reviews are attached to movies
     console.log("sorting error, no reviews attached to movies");
   }
-
-  
-  
 
 
   return (
@@ -140,14 +142,14 @@ function MoviesList(props) {
         {filteredMovies.map((movie) => {
           return (
             <li key={movie._id}>
-              <MovieCard key={movie._id} expanded={movie._id === movieIdToExpand} darkMode={props.darkMode} movie={movie} setListOfMovies={setListOfMovies} listofMovies={listofMovies} />
+              <MovieCard key={movie._id} expanded={movie._id === movieIdToExpand.current} darkMode={props.darkMode} movie={movie} setListOfMovies={setListOfMovies} listofMovies={listofMovies} />
             </li>
           );
         })}
       </ul>
     </div>
   );
-  
+
 }
 
 export default MoviesList;
