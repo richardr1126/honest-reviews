@@ -9,7 +9,7 @@ function MovieCard(props) {
   // Create a ref for the modal element
   const modalRef = useRef(null);
   // useState for openening and closing the card
-  const [expanded, setExpanded] = useState(props.expanded);
+  const [expanded, setExpanded] = useState(false);
   //console.log('expanded', expanded);
   //---------------------------------------------
   // Create a unique id for the movie card with random number

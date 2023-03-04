@@ -29,21 +29,30 @@ function MoviesList(props) {
       });
       setListOfMovies(movies);
 
+      let reviewElement;
+      let movieCardElement;
+
+      try {
+        reviewElement = document.getElementById(reviewId);
+        movieCardElement = reviewElement.parentElement;
+        movieCardElement.className = 'content is-expanded';
+        movieIdToExpand.current = movieCardElement.id;
+        //console.log(movieIdToExpand.current);
+      } catch (error) {
+        console.log(`reviewId: ${reviewId}`);
+        console.log(error);
+      }
+
       
       setTimeout(() => {
         try {
-          const reviewElement = document.getElementById(reviewId);
-          const movieCardElement = reviewElement.parentElement;
-  
           if (movieCardElement && reviewElement) {
-            movieCardElement.className = 'content is-expanded';
-            movieIdToExpand.current = movieCardElement.id;
-  
-            reviewElement.scrollIntoView();
+            reviewElement.scrollIntoView(true);
             window.scrollBy(0, -reviewElement.offsetTop - 20);
           }
         } catch (error) {
-          console.log(reviewId, error);
+          console.log(`reviewId: ${reviewId}`);
+          console.log(error);
         }
       }, 1000);
     });
