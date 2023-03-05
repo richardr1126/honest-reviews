@@ -50,10 +50,9 @@ function MovieCard(props) {
         setExpanded(true);
         console.log('scrolling to review', props.reviewIdToScroll);
         document.title = props.movie.title + " - Movie Review";
-        reviewElement.style.outlineColor = '#FBF719';
-        reviewElement.style.outlineStyle = 'solid';
-        reviewElement.style.outlineWidth = '3px';
+        
         reviewElement.scrollIntoView({ behavior: 'smooth', block: 'center'});
+        reviewElement.classList.add('flash');
         //window.scrollBy(0, -reviewElement.offsetTop - 20);
       }
     } catch (error) {

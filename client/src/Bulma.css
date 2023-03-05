@@ -13119,3 +13119,17 @@ print {
   white-space: nowrap;
   border: 0;
 }
+
+.flash {
+  animation: flash 1.25s;
+}
+
+@keyframes flash {
+  0% { opacity: 1; }
+  15% { opacity: 0; }
+  30% { opacity: 1; }
+  45% { opacity: 0; }
+  60% { opacity: 1; }
+  75% { opacity: 0; }
+  90% { opacity: 1; }
+}
