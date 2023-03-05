@@ -14,7 +14,10 @@ export default function Review({ movie, review }) {
   const [isUpvoted, setIsUpvoted] = useState(upvoteIds.includes(review._id));
   const [isDownvoted, setIsDownvoted] = useState(downvoteIds.includes(review._id));
 
-
+  const lineBreaks = review.review.match(/(\n){4,}/g);
+  if (lineBreaks) {
+    review.review = review.review.replace(/\n/g, '');
+  }
 
   const dateFormatter = new Intl.DateTimeFormat('en-US', {
     month: 'long',
