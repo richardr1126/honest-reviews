@@ -10,6 +10,7 @@ function MovieCard(props) {
   const modalRef = useRef(null);
   // useState for openening and closing the card
   const [expanded, setExpanded] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
   
   //console.log('expanded', expanded);
   //---------------------------------------------
@@ -46,7 +47,7 @@ function MovieCard(props) {
       const reviewElement = document.getElementById(props.reviewIdToScroll);
       const movieCardElement = reviewElement.parentElement;
 
-      if (movieCardElement.id===props.movie._id && reviewElement) {
+      if (movieCardElement.id===props.movie._id && reviewElement && !collapsed) {
         setExpanded(true);
         console.log('scrolling to review', props.reviewIdToScroll);
         document.title = props.movie.title + " - Movie Review";
@@ -129,7 +130,7 @@ function MovieCard(props) {
               <IonIcon icon={addCircleOutline} size='large' />
             </button>
 
-            <div aria-label="Collapse reviews" onClick={() => { setExpanded(false); }} className={expanded ^ !hasReviews ? '' : 'is-collapsed'}>
+            <div aria-label="Collapse reviews" onClick={() => { setExpanded(false); setCollapsed(true); }} className={expanded ^ !hasReviews ? '' : 'is-collapsed'}>
               <br />
               <IonIcon className='has-cursor-pointer' icon={chevronUpOutline} size='small' />
             </div>
