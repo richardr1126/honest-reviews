@@ -49,7 +49,7 @@ function MovieCard(props) {
 
         if (movieCardElement.id===props.movie._id && reviewElement) {
           setExpanded(true);
-          
+          console.log('scrolling to review', props.reviewIdToScroll);
           reviewElement.style.outlineColor = '#FBF719';
           reviewElement.style.outlineStyle = 'solid';
           reviewElement.style.outlineWidth = '3px';
@@ -58,6 +58,38 @@ function MovieCard(props) {
         }
       } catch (error) {
         console.log(props.reviewIdToScroll, error);
+        try {
+          const reviewElement = document.getElementById(props.reviewIdToScroll);
+          const movieCardElement = reviewElement.parentElement;
+  
+          if (movieCardElement.id===props.movie._id && reviewElement) {
+            setExpanded(true);
+            console.log('scrolling to review', props.reviewIdToScroll);
+            reviewElement.style.outlineColor = '#FBF719';
+            reviewElement.style.outlineStyle = 'solid';
+            reviewElement.style.outlineWidth = '3px';
+            reviewElement.scrollIntoView(true);
+            window.scrollBy(0, -reviewElement.offsetTop - 20);
+          }
+        } catch (error) {
+          console.log(props.reviewIdToScroll, error);
+          try {
+            const reviewElement = document.getElementById(props.reviewIdToScroll);
+            const movieCardElement = reviewElement.parentElement;
+    
+            if (movieCardElement.id===props.movie._id && reviewElement) {
+              setExpanded(true);
+              console.log('scrolling to review', props.reviewIdToScroll);
+              reviewElement.style.outlineColor = '#FBF719';
+              reviewElement.style.outlineStyle = 'solid';
+              reviewElement.style.outlineWidth = '3px';
+              reviewElement.scrollIntoView(true);
+              window.scrollBy(0, -reviewElement.offsetTop - 20);
+            }
+          } catch (error) {
+            console.log(props.reviewIdToScroll, error);
+          }
+        }
       }
     }, 1000);
   }, [props.reviewIdToScroll, props.movie._id]);
