@@ -52,8 +52,8 @@ function MovieCard(props) {
         reviewElement.style.outlineColor = '#FBF719';
         reviewElement.style.outlineStyle = 'solid';
         reviewElement.style.outlineWidth = '3px';
-        reviewElement.scrollIntoView(true);
-        window.scrollBy(0, -reviewElement.offsetTop - 20);
+        reviewElement.scrollIntoView({ behavior: 'smooth', block: 'center'});
+        //window.scrollBy(0, -reviewElement.offsetTop - 20);
       }
     } catch (error) {
       console.log(props.reviewIdToScroll, error);

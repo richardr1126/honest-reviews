@@ -14,7 +14,7 @@ function MoviesList(props) {
   const reviewId = queryParams.get('reviewId');
 
   useEffect(() => {
-    Axios.get((process.env.NODE_ENV === 'production') ? '/api/movies/get' : 'http://localhost:3001/api/movies/get').then((response) => {
+    Axios.get((process.env.NODE_ENV === 'production') ? '/api/movies/get' : 'http://192.168.0.25:3001/api/movies/get').then((response) => {
       //sort movies by latest review date
       const movies = response.data.sort((a, b) => {
         if (a.reviews.length > 0 && b.reviews.length > 0) {
