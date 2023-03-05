@@ -58,7 +58,7 @@ function MovieCard(props) {
     } catch (error) {
       console.log(props.reviewIdToScroll, error);
     }
-  }, 1000);
+  }, 1);
 
   return (
     <div role="article">
