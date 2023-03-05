@@ -82,7 +82,7 @@ export default function Review({ movie, review }) {
         await navigator.share({
           title: `Review of ${movie.title} with a rating of ${calcRating(review)}`,
           text: review.review.replace(/(\r\n|\n|\r)/gm, ""),
-          url: window.location.href + `?reviewId=${review._id}`,
+          url: `https://honest-reviews.herokuapp.com/?reviewId=${review._id}`,
         });
       }
     } catch (error) {
