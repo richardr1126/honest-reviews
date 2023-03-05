@@ -49,6 +49,7 @@ function MovieCard(props) {
       if (movieCardElement.id===props.movie._id && reviewElement) {
         setExpanded(true);
         console.log('scrolling to review', props.reviewIdToScroll);
+        document.title = props.movie.title + " - Movie Review";
         reviewElement.style.outlineColor = '#FBF719';
         reviewElement.style.outlineStyle = 'solid';
         reviewElement.style.outlineWidth = '3px';
@@ -57,6 +58,7 @@ function MovieCard(props) {
       }
     } catch (error) {
       console.log(props.reviewIdToScroll, error);
+      document.title = "Honest Reviews";
     }
   }, 1);
 
