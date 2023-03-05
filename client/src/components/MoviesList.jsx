@@ -13,6 +13,10 @@ function MoviesList(props) {
   const queryParams = new URLSearchParams(location.search);
   const reviewId = queryParams.get('reviewId');
 
+  const isMobile = window.innerWidth <= 768;
+  const bgColor = props.darkMode ? '#262626' : 'white';
+
+
   useEffect(() => {
     Axios.get((process.env.NODE_ENV === 'production') ? '/api/movies/get' : 'http://192.168.0.25:3001/api/movies/get').then((response) => {
       //sort movies by latest review date
@@ -116,7 +120,7 @@ function MoviesList(props) {
 
 
   return (
-    <div className='box container is-max-desktop' style={props.darkMode ? { backgroundColor: '#262626' } : { backgroundColor: 'white' }}>
+    <div className='box container is-max-desktop' style={isMobile ? {padding: '10px', backgroundColor: bgColor, outline: '0'} : {backgroundColor: bgColor}}>
       <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <ul aria-live="polite">
         {filteredMovies.map((movie) => {

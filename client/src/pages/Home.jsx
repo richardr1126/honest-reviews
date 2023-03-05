@@ -9,6 +9,7 @@ function Home() {
 	// check if device is in dark mode
 	const [darkMode, setDarkMode] = useState(false);
 	const moviesListId = useId();
+	const isMobile = window.innerWidth <= 768;
 
 	useEffect(() => {
 		const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
@@ -23,7 +24,7 @@ function Home() {
 	document.getElementById('root').style.backgroundColor = darkMode ? '#1f1f1f':'white';
 
 	return (
-		<div style={{ padding: '1rem'}}>
+		<div style={isMobile ? { padding: '5px'}:{ padding: '1rem'}}>
 			<WelcomeCard key={'welcome-card'} textStyle={textStyle} darkMode={darkMode} />
 			<MoviesList key={"movies-list-"+moviesListId} darkMode={darkMode} />
 			<Footer darkMode={darkMode}/>

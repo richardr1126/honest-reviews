@@ -1,6 +1,9 @@
 function WelcomeCard({ textStyle, darkMode }) {
+  const bgColor = darkMode ? '#262626' : '#f5f5f5';
+  const isMobile = window.innerWidth <= 768;
+
   return (
-    <div className="box content container is-max-desktop" style={darkMode ? { backgroundColor: '#262626' } : { backgroundColor: '#f5f5f5' }}>
+    <div className="box content container is-max-desktop" style={isMobile ? {margin: '5px', marginBottom: '1.5rem', backgroundColor: bgColor} : {backgroundColor: bgColor}}>
 
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <div className={darkMode ? "box no-padding" : ""}><img className="image" src="/favicon-96x96.png" alt="Honest Reviews Logo" style={{ width: '2rem', height: '2rem', marginTop: darkMode ? '-0.35rem' : '-1rem' }}></img></div>

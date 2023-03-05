@@ -32,7 +32,12 @@ function MovieCard(props) {
   });
   //---------------------------------------------
   // Card style
-  const cardStyle_padding = expanded ^ !hasReviews ? { paddingBottom: '12px' } : {};
+  const cardStyle_padding = expanded ^ !hasReviews ? { paddingBottom: '12px', padding: '1.5rem' } : {};
+  if (isMobile) {
+    cardStyle_padding.padding = '15px';
+    cardStyle_padding.paddingBottom = '12px';
+  }
+
 
   useEffect(() => {
     if (hasReviews) {
