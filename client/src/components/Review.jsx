@@ -94,11 +94,12 @@ export default function Review({ movie, review }) {
   }
 
 
-  const columnClassName = isMobile ? 'column is-8' : 'column is-11';
-  const columnClassName2 = isMobile ? 'column' : 'column';
+  const columnClassName = isMobile ? 'column is-4' : 'column is-11';
+  const columnClassName2 = isMobile ? 'column is-3' : 'column';
+  const columnClassName3 = isMobile ? 'column has-text-left' : 'column has-text-left';
 
   return (
-    
+
     <div id={review._id} className='box is-hoverable' key={review._id} role="article">
       <div className='columns'>
         <div className='column is-three-quarters' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'flex-start' }}>
@@ -107,13 +108,18 @@ export default function Review({ movie, review }) {
             <p style={{ whiteSpace: 'pre-wrap' }}>{review.review}</p>
             <p><strong>{dateFormatter.format(new Date(review.date))}</strong></p>
           </div>
-          <IonIcon style={{ marginTop: '1rem' }} aria-label="Share" className="has-cursor-pointer is-hoverable" icon={shareOutline} size={iconSize} onClick={() => { share(); }} />
+          {!isMobile && <IonIcon style={{ marginTop: '1rem' }} aria-label="Share" className="has-cursor-pointer is-hoverable" icon={shareOutline} size={iconSize} onClick={() => { share(); }} />}
         </div>
         <div className='column' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', paddingBottom: '3px' }}>
           <p className='label'>Story <progress className="progress is-danger is-small" value={review.storyRating} max="5">{review.storyRating}</progress></p>
           <p className='label'>Performances <progress className="progress is-info is-small" value={review.performancesRating} max="5">{review.performancesRating}</progress></p>
           <p className='label'>Music <progress className="progress is-primary is-small" value={review.musicRating} max="5">{review.musicRating}</progress></p>
           <div className="columns has-text-right is-gapless is-mobile" style={{ marginTop: 'auto', paddingTop: isMobile ? '' : '0.5rem' }}>
+            {isMobile && (
+              <div className={columnClassName3}>
+                <IonIcon style={{ marginTop: '8px' }} aria-label="Share" className="has-cursor-pointer is-hoverable" icon={shareOutline} size={iconSize} onClick={() => { share(); }} />
+              </div>
+            )}
             <div className={columnClassName}>
               <p style={{ marginTop: '8px', marginRight: isMobile ? '' : '1px', fontSize: fontSize }}>{votes}</p>
             </div>

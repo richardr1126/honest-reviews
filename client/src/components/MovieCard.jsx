@@ -94,7 +94,7 @@ function MovieCard(props) {
             )}
 
             {/* No scroll media-content*/}
-            <div className="media-content is-clipped" style={{ overflow: 'hidden' }}>
+            <div className="media-content is-clipped" style={{ overflow: 'clip' }}>
               <div className='columns'>
                 <div className='column'>
                   <h1 className={expanded ? "title is-4" : "title is-5"}>
