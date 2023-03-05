@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import Axios from 'axios';
 import MovieCard from './MovieCard';
@@ -8,7 +8,7 @@ import SearchBar from './SearchBar';
 function MoviesList(props) {
   const [listofMovies, setListOfMovies] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const movieIdToExpand = useRef("");
+
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const reviewId = queryParams.get('reviewId');
@@ -28,33 +28,6 @@ function MoviesList(props) {
         }
       });
       setListOfMovies(movies);
-
-      let reviewElement;
-      let movieCardElement;
-
-      try {
-        reviewElement = document.getElementById(reviewId);
-        movieCardElement = reviewElement.parentElement;
-        movieCardElement.className = 'content is-expanded';
-        movieIdToExpand.current = movieCardElement.id;
-        //console.log(movieIdToExpand.current);
-      } catch (error) {
-        console.log(`reviewId: ${reviewId}`);
-        console.log(error);
-      }
-
-      
-      setTimeout(() => {
-        try {
-          if (movieCardElement && reviewElement) {
-            reviewElement.scrollIntoView(true);
-            window.scrollBy(0, -reviewElement.offsetTop - 20);
-          }
-        } catch (error) {
-          console.log(`reviewId: ${reviewId}`);
-          console.log(error);
-        }
-      }, 1000);
     });
     //if search term has more than 5 characters
     if (searchTerm.length >= 3) {
@@ -96,7 +69,7 @@ function MoviesList(props) {
           console.error(error);
         });
     }
-  }, [searchTerm, reviewId]);
+  }, [searchTerm]);
 
 
   // filter through the list of movies to find the ones that match the search term
@@ -149,7 +122,7 @@ function MoviesList(props) {
         {filteredMovies.map((movie) => {
           return (
             <li key={movie._id}>
-              <MovieCard key={movie._id} expanded={movie._id === movieIdToExpand.current} darkMode={props.darkMode} movie={movie} setListOfMovies={setListOfMovies} listofMovies={listofMovies} />
+              <MovieCard reviewIdToScroll={reviewId} key={movie._id} darkMode={props.darkMode} movie={movie} setListOfMovies={setListOfMovies} listofMovies={listofMovies} />
             </li>
           );
         })}

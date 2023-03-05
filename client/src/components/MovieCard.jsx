@@ -10,6 +10,7 @@ function MovieCard(props) {
   const modalRef = useRef(null);
   // useState for openening and closing the card
   const [expanded, setExpanded] = useState(false);
+  
   //console.log('expanded', expanded);
   //---------------------------------------------
   // Create a unique id for the movie card with random number
@@ -33,14 +34,33 @@ function MovieCard(props) {
   const cardStyle_padding = expanded ^ !hasReviews ? { paddingBottom: '12px' } : {};
 
   useEffect(() => {
-    if (props.expanded) {
-      setExpanded(true);
-    } else if (hasReviews) {
+    if (hasReviews) {
       setExpanded(false);
     } else {
       setExpanded(true);
     }
-  }, [hasReviews, props.expanded]);
+  }, [hasReviews]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      try {
+        const reviewElement = document.getElementById(props.reviewIdToScroll);
+        const movieCardElement = reviewElement.parentElement;
+
+        if (movieCardElement.id===props.movie._id && reviewElement) {
+          setExpanded(true);
+          
+          reviewElement.style.outlineColor = '#FBF719';
+          reviewElement.style.outlineStyle = 'solid';
+          reviewElement.style.outlineWidth = '3px';
+          reviewElement.scrollIntoView(true);
+          window.scrollBy(0, -reviewElement.offsetTop - 20);
+        }
+      } catch (error) {
+        console.log(props.reviewIdToScroll, error);
+      }
+    }, 1000);
+  }, [props.reviewIdToScroll, props.movie._id]);
 
   return (
     <div role="article">

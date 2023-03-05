@@ -95,6 +95,7 @@ export default function Review({ movie, review }) {
   const columnClassName2 = isMobile ? 'column' : 'column';
 
   return (
+    
     <div id={review._id} className='box is-hoverable' key={review._id} role="article">
       <div className='columns'>
         <div className='column is-three-quarters' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'flex-start' }}>
