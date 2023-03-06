@@ -22,6 +22,7 @@ function WelcomeCard({ textStyle, darkMode }) {
         <li>Plus button to add your review.</li>
         <li>Filter the movies by title.</li>
         <li>Upvote or downvote reviews.</li>
+        <li>Share reviews.</li>
       </ul>
     </div>
   );
