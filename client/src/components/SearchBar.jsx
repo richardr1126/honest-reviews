@@ -14,10 +14,10 @@ export default function SearchBar({ searchTerm, setSearchTerm }) {
           id="searchInput"
           className="input"
           type="text"
-          placeholder="Search by title"
+          placeholder="Search for any movie by title"
           value={searchTerm}
           onChange={handleInputChange}
-          aria-label="Search by title"
+          aria-label="Search for any movie by title"
         />
         <span className="icon is-large is-left" aria-hidden="true">
           <IonIcon icon={searchOutline} size='small' aria-label="Search icon" />
