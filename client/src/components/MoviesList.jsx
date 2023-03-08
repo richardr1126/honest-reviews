@@ -11,7 +11,9 @@ function MoviesList(props) {
 
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
+  //set new boolean variable to check if reviedId is in the query params
   const reviewId = queryParams.get('reviewId');
+  const hasReviewId = reviewId !== null;
 
   const isMobile = window.innerWidth <= 768;
   const bgColor = props.darkMode ? '#262626' : 'white';
@@ -126,7 +128,7 @@ function MoviesList(props) {
         {filteredMovies.map((movie) => {
           return (
             <li key={movie._id}>
-              <MovieCard reviewIdToScroll={reviewId} key={movie._id} darkMode={props.darkMode} movie={movie} setListOfMovies={setListOfMovies} listofMovies={listofMovies} />
+              <MovieCard hasReviewId={hasReviewId} reviewIdToScroll={reviewId} key={movie._id} darkMode={props.darkMode} movie={movie} setListOfMovies={setListOfMovies} listofMovies={listofMovies} />
             </li>
           );
         })}

@@ -13,6 +13,11 @@ export default function Review({ movie, review }) {
 
   const [isUpvoted, setIsUpvoted] = useState(upvoteIds.includes(review._id));
   const [isDownvoted, setIsDownvoted] = useState(downvoteIds.includes(review._id));
+  const [showFullText, setShowFullText] = useState(false);
+
+  const toggleFullText = () => {
+    setShowFullText(!showFullText);
+  };
 
   const lineBreaks = review.review.match(/(\n){4,}/g);
   if (lineBreaks) {
@@ -22,8 +27,9 @@ export default function Review({ movie, review }) {
   const dateFormatter = new Intl.DateTimeFormat('en-US', {
     month: 'long',
     day: '2-digit',
-    year: 'numeric'
+    year: 'numeric',
   });
+  
 
   const isMobile = window.innerWidth < 768;
   const iconSize = isMobile ? 'large' : 'small';
@@ -99,14 +105,21 @@ export default function Review({ movie, review }) {
   const columnClassName3 = isMobile ? 'column has-text-left' : 'column has-text-left';
 
   return (
-
     <div id={review._id} className='box is-hoverable' key={review._id} role="article">
       <div className='columns'>
         <div className='column is-three-quarters' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'flex-start' }}>
           <div>
             <strong>{review.author}</strong>
-            <p style={{ whiteSpace: 'pre-wrap' }}>{review.review}</p>
-            <p><strong>{dateFormatter.format(new Date(review.date))}</strong></p>
+            <p style={{ whiteSpace: 'pre-wrap', marginBottom: (review.review.length < 300) ?  '1.5rem':'0.25rem' }}>
+              {showFullText ? review.review : (review.review.length < 300 ? review.review: (review.review.slice(0, 300) + '...'))}
+            </p>
+            {review.review.length > 300 && (
+              // underline on hover
+              <div onClick={toggleFullText} className="has-cursor-pointer underline-on-hover" style={{paddingBottom: '1rem'}}>
+                <strong>{showFullText ? 'Show less' : 'Show more'}</strong>
+              </div>
+            )}
+            <p style={{fontStyle: 'italic'}}>{dateFormatter.format(new Date(review.date))}</p>
           </div>
           {!isMobile && <IonIcon style={{ marginTop: '1rem' }} aria-label="Share" className="has-cursor-pointer is-hoverable" icon={shareOutline} size={iconSize} onClick={() => { share(); }} />}
         </div>
@@ -132,8 +145,7 @@ export default function Review({ movie, review }) {
       </div>
     </div>
   );
-
-}
+};
 
 //calculates the average rating of 1 review
 function calcRating(review) {

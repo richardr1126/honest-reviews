@@ -47,33 +47,36 @@ function MovieCard(props) {
     }
   }, [hasReviews]);
 
-  setTimeout(() => {
-    try {
-      const reviewElement = document.getElementById(props.reviewIdToScroll);
-      const movieCardElement = reviewElement.parentElement;
-
-      if (movieCardElement.id===props.movie._id && reviewElement && !collapsed) {
-        setExpanded(true);
-        console.log('scrolling to review', props.reviewIdToScroll);
-        document.title = props.movie.title + " - Movie Review";
-        
-        reviewElement.scrollIntoView({ behavior: 'smooth', block: 'center'});
-        reviewElement.classList.add('flash');
-        //window.scrollBy(0, -reviewElement.offsetTop - 20);
+  if (props.hasReviewId) {
+    setTimeout(() => {
+      try {
+        const reviewElement = document.getElementById(props.reviewIdToScroll);
+        const movieCardElement = reviewElement.parentElement;
+  
+        if (movieCardElement.id===props.movie._id && reviewElement && !collapsed) {
+          setExpanded(true);
+          console.log('scrolling to review', props.reviewIdToScroll);
+          document.title = props.movie.title + " - Movie Review";
+          
+          reviewElement.scrollIntoView({ behavior: 'smooth', block: 'center'});
+          reviewElement.classList.add('flash');
+          //window.scrollBy(0, -reviewElement.offsetTop - 20);
+        }
+      } catch (error) {
+        console.log(props.reviewIdToScroll, error);
+        document.title = "Honest Reviews";
       }
-    } catch (error) {
-      console.log(props.reviewIdToScroll, error);
-      document.title = "Honest Reviews";
-    }
-  }, 1);
+    }, 1);
+  }
 
   return (
-    <div role="article">
+    <div id={props.movie.title+props.movie._id} role="article">
       <br />
       <p className='sr-only'>{props.movie.title}, click or tap to see reviews</p>
       <div className={expanded ? (props.darkMode ? "card is-darkmode-hoverable" : "card is-hoverable") : (props.darkMode ? "card is-darkmode-hoverable has-cursor-pointer" : "card is-hoverable has-cursor-pointer")} onClick={(event) => {
         if (!expanded) {
           setExpanded(true);
+          window.location.href = `http://localhost:3000/#${props.movie.title+props.movie._id}`;
         }
       }} style={{ backgroundColor: '#f5f5f5', cursor: expanded ? 'default' : 'pointer' }}>
         <div className="card-content" style={cardStyle_padding}>

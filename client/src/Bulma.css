@@ -5277,6 +5277,10 @@ print {
   cursor: pointer;
 }
 
+.underline-on-hover:hover {
+  text-decoration: underline;
+}
+
 .card-content:first-child,
 .card-footer:first-child,
 .card-header:first-child {
