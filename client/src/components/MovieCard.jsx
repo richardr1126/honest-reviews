@@ -76,7 +76,7 @@ function MovieCard(props) {
       <div className={expanded ? (props.darkMode ? "card is-darkmode-hoverable" : "card is-hoverable") : (props.darkMode ? "card is-darkmode-hoverable has-cursor-pointer" : "card is-hoverable has-cursor-pointer")} onClick={(event) => {
         if (!expanded) {
           setExpanded(true);
-          window.location.href = `http://localhost:3000/#${props.movie.title+props.movie._id}`;
+          window.location.href = (process.env.NODE_ENV === 'production') ? `https://honest-reviews.herokuapp.com/#${props.movie.title+props.movie._id}` : `http://localhost:3000/#${props.movie.title+props.movie._id}`;
         }
       }} style={{ backgroundColor: '#f5f5f5', cursor: expanded ? 'default' : 'pointer' }}>
         <div className="card-content" style={cardStyle_padding}>
