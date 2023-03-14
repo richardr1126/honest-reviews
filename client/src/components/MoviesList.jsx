@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import Axios from 'axios';
 import MovieCard from './MovieCard';
 import SearchBar from './SearchBar';
+import Alert from '@mui/material/Alert';
 
 
 function MoviesList(props) {
@@ -17,6 +18,8 @@ function MoviesList(props) {
 
   const isMobile = window.innerWidth <= 768;
   const bgColor = props.darkMode ? '#262626' : 'white';
+
+  const [showAlert, setShowAlert] = useState(false);
 
   useEffect(() => {
     Axios.get((process.env.NODE_ENV === 'production') ? '/api/movies/get' : 'http://192.168.0.25:3001/api/movies/get').then((response) => {
@@ -104,15 +107,29 @@ function MoviesList(props) {
     });
   }
 
+  function alertSpam() {
+    setShowAlert(true);
+  }
+
+  useEffect(() => {
+    if (showAlert) {
+      setTimeout(() => {
+        setShowAlert(false);
+      }, 8000);
+    }
+  }, [showAlert]);
+
+
 
   return (
     <div className='box container is-max-desktop' style={isMobile ? { padding: '10px', backgroundColor: bgColor, outline: '0' } : { backgroundColor: bgColor }}>
       <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} searchOMDB={searchOMDB} />
+      {showAlert && <Alert severity="warning">Your review was marked for spam by ChatGPT and hidden, please write a real review!</Alert>}
       <ul aria-live="polite">
         {listofMovies.map((movie) => {
           return (
             <li key={movie._id}>
-              <MovieCard hasReviewId={hasReviewId} reviewIdToScroll={reviewId} key={movie._id} darkMode={props.darkMode} movie={movie} setListOfMovies={setListOfMovies} listofMovies={listofMovies} />
+              <MovieCard hasReviewId={hasReviewId} reviewIdToScroll={reviewId} key={movie._id} darkMode={props.darkMode} movie={movie} setListOfMovies={setListOfMovies} listofMovies={listofMovies} alertSpam={alertSpam}/>
             </li>
           );
         })}

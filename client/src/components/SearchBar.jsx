@@ -9,6 +9,7 @@ export default function SearchBar({ searchTerm, setSearchTerm, searchOMDB }) {
   const [isClickedAway, setIsClickedAway] = useState(false);
   const debounceTimeout = useRef(null);
   const searchButtonRef = useRef(null);
+  const autoRef = useRef(null);
 
   useEffect(() => {
     // Debounce the API call using setTimeout
@@ -18,7 +19,7 @@ export default function SearchBar({ searchTerm, setSearchTerm, searchOMDB }) {
       debounceTimeout.current = setTimeout(() => {
         Axios.get(`https://www.omdbapi.com/?i=tt3896198&apikey=dd610a6e&s=${searchTerm}&type=movie`)
         .then(response => {
-          setSearchResults(response.data.Search.map(movie => movie.Title));
+          setSearchResults(response.data.Search.map(movie => movie.Title + ' (' + movie.Year + ')'));
         })
         .catch(error => {
           console.error(error);
@@ -28,25 +29,33 @@ export default function SearchBar({ searchTerm, setSearchTerm, searchOMDB }) {
       clearTimeout(debounceTimeout.current);
       setSearchResults([]);
     }
+    
   }, [searchTerm]);
+
 
   return (
     <div className="field has-addons">
       <div className="control is-expanded">
         <Autocomplete
+          includeInputInList={true}
+          selectOnFocus={true}
+          ref={autoRef}
+          freeSolo={true}
           open={searchResults.length > 0 && !isClickedAway}
-          filterOptions={(options) => options}
           options={searchResults}
           onBlur={() => { setIsClickedAway(true);}}
           onFocus={() => setIsClickedAway(false)}
+          blurOnSelect={true}
           onChange={(event, value) => {
             setIsClickedAway(true);
-            setSearchTerm(value);
+            setSearchTerm(value.split(' (')[0]);
             setSearchResults([]);
-            //todo
+
             setTimeout(() => {
+              
               searchButtonRef.current.click();
             }, 200);
+            
           }}
           renderInput={(params) => (
             <div ref={params.InputProps.ref}>

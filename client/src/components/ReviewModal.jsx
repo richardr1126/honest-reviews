@@ -86,7 +86,9 @@ function ReviewModal(props) {
     })
       .then((response) => {
         props.modalRef.current.classList.toggle('is-active'); // toggle off modal
-        props.setListOfMovies(response.data);
+        //access isSpam from response
+        if (response.data.isSpam) props.alertSpam();
+        props.setListOfMovies(response.data.movies);
         window.scrollTo(0, 0);
         reviewAuthorRef.current.value = '';
         reviewTextRef.current.value = '';

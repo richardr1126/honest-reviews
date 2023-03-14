@@ -76,15 +76,21 @@ router.post('/post', async (req, res) => {
     }
   }
 
-  //return updated list of movies
-  MovieReviewModel.find({}, (err, movies) => {
-    if (err) {
-      res.json(err);
+  //send movies and isSpam to frontend
+  const movies = await MovieReviewModel.find({});
+  movies.sort((a, b) => {
+    if (a.reviews.length > 0 && b.reviews.length > 0) {
+      return new Date(b.reviews[b.reviews.length - 1].date) - new Date(a.reviews[a.reviews.length - 1].date);
+    } else if (a.reviews.length > 0) {
+      return new Date(b.reviews[b.reviews.length - 1].date) - new Date(a.releaseDate);
+    } else if (b.reviews.length > 0) {
+      return new Date(b.releaseDate) - new Date(a.reviews[a.reviews.length - 1].date);
     } else {
-      res.json(movies);
+      return new Date(b.releaseDate) - new Date(a.releaseDate);
     }
   });
-})
+  res.json({ movies, isSpam });
+});
 
 router.post('/vote', async (req, res) => {
   const { movie, review } = req.body;

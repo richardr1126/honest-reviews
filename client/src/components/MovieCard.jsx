@@ -131,7 +131,7 @@ function MovieCard(props) {
               <Review key={review._id} movie={props.movie} review={review} />
             ))}
 
-            <ReviewModal movie={props.movie} modalRef={modalRef} setListOfMovies={props.setListOfMovies} listofMovies={props.listofMovies} />
+            <ReviewModal movie={props.movie} modalRef={modalRef} setListOfMovies={props.setListOfMovies} listofMovies={props.listofMovies} alertSpam={props.alertSpam} />
 
             <button aria-label="Add review" onClick={() => { modalRef.current.classList.toggle('is-active'); }} className='button is-fullwidth is-medium' style={{ borderRadius: '0.5rem' }}>
               <IonIcon icon={addCircleOutline} size='large' />
