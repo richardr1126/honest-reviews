@@ -18,9 +18,9 @@ function WelcomeCard({ textStyle, darkMode }) {
         Reviews are checked for spam using large language models with the <a href="https://platform.openai.com/docs/api-reference/chat" target="_blank" rel="noreferrer">OpenAI API</a>.
       </p>
       <ul style={textStyle}>
-        <li>Tap movie to see reviews.</li>
-        <li>Plus button to add your review.</li>
-        <li>Filter the movies by title.</li>
+        <li>Movies with reviews attached are below.</li>
+        <li>Press the search button to search for new movies.</li>
+        <li>Tap a movie to see reviews.</li>
         <li>Upvote or downvote reviews.</li>
         <li>Share reviews.</li>
       </ul>

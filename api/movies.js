@@ -8,18 +8,35 @@ const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
+const Axios = require('axios');
 
 
 
 router.get('/get', (req, res) => {
-  MovieReviewModel.find({}, (err, movies) => {
-    if (err) {
-      res.json(err);
-    } else {
-      res.json(movies);
-    }
-  });
-})
+  let searchTerm = req.query.searchTerm;
+  MovieReviewModel.find({})
+    .exec((err, response) => {
+      if (err) {
+        res.json(err);
+      } else {
+        const movies = response;
+        movies.sort((a, b) => {
+          if (a.reviews.length > 0 && b.reviews.length > 0) {
+            return new Date(b.reviews[b.reviews.length - 1].date) - new Date(a.reviews[a.reviews.length - 1].date);
+          } else if (a.reviews.length > 0) {
+            return new Date(b.reviews[b.reviews.length - 1].date) - new Date(a.releaseDate);
+          } else if (b.reviews.length > 0) {
+            return new Date(b.releaseDate) - new Date(a.reviews[a.reviews.length - 1].date);
+          } else {
+            return new Date(b.releaseDate) - new Date(a.releaseDate);
+          }
+        });
+        
+        res.json(movies);
+      }
+    });
+});
+
 
 
 router.post('/post', async (req, res) => {
@@ -29,7 +46,6 @@ router.post('/post', async (req, res) => {
   console.log(prompt);
   const completion = await openai.createChatCompletion({
     model: 'gpt-3.5-turbo',
-    temperature: 0.2,
     max_tokens: 800,
     messages: [
       { "role": "user", "content": prompt },
