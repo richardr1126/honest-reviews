@@ -19,7 +19,7 @@ function MoviesList(props) {
   const isMobile = window.innerWidth <= 768;
   const bgColor = props.darkMode ? '#262626' : 'white';
 
-  const [showAlert, setShowAlert] = useState(false);
+  const [showAlert, setShowAlert] = useState(true);
 
   useEffect(() => {
     Axios.get((process.env.NODE_ENV === 'production') ? '/api/movies/get' : 'http://192.168.0.25:3001/api/movies/get').then((response) => {
@@ -115,7 +115,7 @@ function MoviesList(props) {
     if (showAlert) {
       setTimeout(() => {
         setShowAlert(false);
-      }, 8000);
+      }, 30000);
     }
   }, [showAlert]);
 
@@ -124,7 +124,7 @@ function MoviesList(props) {
   return (
     <div className='box container is-max-desktop' style={isMobile ? { padding: '10px', backgroundColor: bgColor, outline: '0' } : { backgroundColor: bgColor }}>
       <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} searchOMDB={searchOMDB} />
-      {showAlert && <Alert severity="warning">Your review was marked for spam by ChatGPT and hidden, please write a real review!</Alert>}
+      {showAlert && <Alert onClose={() => {setShowAlert(false)}} severity="warning">Your review was marked for spam by ChatGPT and hidden, please write a real review!</Alert>}
       <ul aria-live="polite">
         {listofMovies.map((movie) => {
           return (
