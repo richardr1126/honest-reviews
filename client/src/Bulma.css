@@ -575,6 +575,7 @@ table th {
 
 .is-hoverable:hover {
   box-shadow: 0 .7em 1.2em -.15em rgba(10, 10, 10, .15), 0 0 0 1px rgba(10, 10, 10, .04);
+  transition: all .25s ease-in-out;
 }
 
 

@@ -42,12 +42,15 @@ router.get('/get', (req, res) => {
 router.post('/post', async (req, res) => {
   const { movie, review } = req.body;
   const reviewText = review.review;
-  const prompt = `Can you detect if this is a spam or inappropriate movie review or if it just doesn't belong on a real website, respond with just "true" if it is a bad review and "false" if it is a good review? Review: \n"${reviewText}"`;
+  const sys_prompt = `You are a Movie Review Checker Bot. You detect if movie reviews are spam, inappropriate, or if they don't have anything 
+  to do with the title of the movie at all. I will give you the title of the movie and the review. Reply only with 'true' if it is spam or 'false' if it isn't, nothing else.`;
+  const prompt = `Title: ${movie.title}\nReview: ${reviewText}`;
   console.log(prompt);
   const completion = await openai.createChatCompletion({
     model: 'gpt-3.5-turbo',
     max_tokens: 800,
     messages: [
+      { "role": "system", "content": sys_prompt },
       { "role": "user", "content": prompt },
     ]
   });

@@ -73,11 +73,17 @@ function MovieCard(props) {
     <div id={props.movie.title+props.movie._id} role="article">
       <br />
       <p className='sr-only'>{props.movie.title}, click or tap to see reviews</p>
-      <div className={expanded ? (props.darkMode ? "card is-darkmode-hoverable" : "card is-hoverable") : (props.darkMode ? "card is-darkmode-hoverable has-cursor-pointer" : "card is-hoverable has-cursor-pointer")} onClick={(event) => {
+      <div tabIndex='0' className={expanded ? (props.darkMode ? "card is-darkmode-hoverable" : "card is-hoverable") : (props.darkMode ? "card is-darkmode-hoverable has-cursor-pointer" : "card is-hoverable has-cursor-pointer")} onClick={(event) => {
         if (!expanded) {
           setExpanded(true);
         }
-      }} style={{ backgroundColor: '#f5f5f5', cursor: expanded ? 'default' : 'pointer' }}>
+      }} style={{ backgroundColor: '#f5f5f5', cursor: expanded ? 'default' : 'pointer' }} onKeyDown={(event) => {
+        if (!expanded && event.key === 'Enter') {
+          setExpanded(true);
+        } else if (expanded && event.key === 'Enter') {
+          setExpanded(false);
+        }
+      }}>
         <div className="card-content" style={cardStyle_padding}>
           {isMobile && (
             <div className="card-image" style={{ paddingBottom: '0.75rem' }}>
@@ -139,7 +145,7 @@ function MovieCard(props) {
 
             <div aria-label="Collapse reviews" onClick={() => { setExpanded(false); setCollapsed(true); }} className={expanded ^ !hasReviews ? '' : 'is-collapsed'}>
               <br />
-              <IonIcon className='has-cursor-pointer' icon={chevronUpOutline} size='small' />
+              <IonIcon tabIndex='0' className='has-cursor-pointer' icon={chevronUpOutline} size='small' onKeyDown={(event) => { if (event.key === 'Enter') { setExpanded(false); setCollapsed(true); } }} />
             </div>
 
           </div>
