@@ -73,14 +73,14 @@ function MovieCard(props) {
     <div id={props.movie.title+props.movie._id} role="article">
       <br />
       <p className='sr-only'>{props.movie.title}, click or tap to see reviews</p>
-      <div tabIndex='0' className={expanded ? (props.darkMode ? "card is-darkmode-hoverable" : "card is-hoverable") : (props.darkMode ? "card is-darkmode-hoverable has-cursor-pointer" : "card is-hoverable has-cursor-pointer")} onClick={(event) => {
-        if (!expanded) {
+      <div tabIndex='0' className={props.darkMode ? "card is-darkmode-hoverable" : "card is-hoverable"} onClick={(event) => {
+        if (!expanded && !modalRef.current.classList.contains('is-active')) {
           setExpanded(true);
         }
       }} style={{ backgroundColor: '#f5f5f5', cursor: expanded ? 'default' : 'pointer' }} onKeyDown={(event) => {
-        if (!expanded && event.key === 'Enter') {
+        if (!expanded && event.key === 'Enter' && !modalRef.current.classList.contains('is-active')) {
           setExpanded(true);
-        } else if (expanded && event.key === 'Enter') {
+        } else if (expanded && event.key === 'Enter' && !modalRef.current.classList.contains('is-active')) {
           setExpanded(false);
         }
       }}>
@@ -126,7 +126,11 @@ function MovieCard(props) {
                   <p>{props.movie.cast}</p>
                 </div>
                 <div className='column'>
-                  {props.movie.plot}
+                  {/* if not expanded and the plot is longer than 300 characters, slice it and add ... */}
+                  {!expanded && props.movie.plot.length > 300 && (props.movie.plot.slice(0, 300) + '...')}
+                  {!expanded && props.movie.plot.length <= 300 && props.movie.plot}
+                  {/* if expanded, show the full plot */}
+                  {expanded && props.movie.plot}
                 </div>
               </div>
             </div>
@@ -137,7 +141,7 @@ function MovieCard(props) {
               <Review key={review._id} movie={props.movie} review={review} />
             ))}
 
-            <ReviewModal movie={props.movie} modalRef={modalRef} setListOfMovies={props.setListOfMovies} listofMovies={props.listofMovies} alertSpam={props.alertSpam} />
+            <ReviewModal movie={props.movie} modalRef={modalRef} setListOfMovies={props.setListOfMovies} listofMovies={props.listofMovies} alertSpam={props.alertSpam} setSearchTerm={props.setSearchTerm}/>
 
             <button aria-label="Add review" onClick={() => { modalRef.current.classList.toggle('is-active'); }} className='button is-fullwidth is-medium' style={{ borderRadius: '0.5rem' }}>
               <IonIcon icon={addCircleOutline} size='large' />
@@ -145,7 +149,7 @@ function MovieCard(props) {
 
             <div aria-label="Collapse reviews" onClick={() => { setExpanded(false); setCollapsed(true); }} className={expanded ^ !hasReviews ? '' : 'is-collapsed'}>
               <br />
-              <IonIcon tabIndex='0' className='has-cursor-pointer' icon={chevronUpOutline} size='small' onKeyDown={(event) => { if (event.key === 'Enter') { setExpanded(false); setCollapsed(true); } }} />
+              <IonIcon tabIndex='0' className='has-cursor-pointer' icon={chevronUpOutline} size='small' onKeyDown={(event) => { if (event.key === 'Enter'  && !modalRef.current.classList.contains('is-active')) { setExpanded(false); setCollapsed(true); } }} />
             </div>
 
           </div>

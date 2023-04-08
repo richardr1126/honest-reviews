@@ -63,6 +63,7 @@ router.post('/post', async (req, res) => {
   if (!isSpam) {
     if (!foundMovie) {
       foundMovie = new MovieReviewModel({
+        _id: movie._id,
         title: movie.title,
         director: movie.director,
         releaseDate: movie.releaseDate,

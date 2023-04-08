@@ -45,6 +45,7 @@ function MoviesList(props) {
             : 'http://192.168.0.25:3001/api/movies/get'
         );
         setListOfMovies(filterAndDedupeMovies(response.data));
+
       } catch (error) {
         console.error(error);
       }
@@ -54,29 +55,52 @@ function MoviesList(props) {
   const searchOMDB = useCallback(async () => {
     try {
       const response = await Axios.get(
-        `https://www.omdbapi.com/?i=tt3896198&apikey=dd610a6e&s=${searchTerm}&type=movie`
+        `https://api.themoviedb.org/3/search/movie?api_key=93e398a3dcc4a264a6fe485c3f16a028&language=en-US&query=${searchTerm}&page=1&include_adult=false`
       );
-      if (response.data.Response === 'True') {
-        const newMoviesPromises = response.data.Search.map(async (movieUnformatted) => {
+      //console.log('response', response);
+      if (response.data.total_results > 0) {
+        const newMoviesPromises = response.data.results.map(async (movieUnformatted) => {
           try {
             const movieDetailed = await Axios.get(
-              `https://www.omdbapi.com/?i=tt3896198&apikey=dd610a6e&t=${movieUnformatted.Title}&type=movie`
+              `https://api.themoviedb.org/3/movie/${movieUnformatted.id}?api_key=93e398a3dcc4a264a6fe485c3f16a028&language=en-US`
             );
-            if (movieDetailed.data.Response === 'True') {
-              return {
-                _id: movieDetailed.data.imdbID,
-                title: movieDetailed.data.Title,
-                director: movieDetailed.data.Director,
-                releaseDate: movieDetailed.data.Released === 'N/A' ? null : movieDetailed.data.Released,
-                genre: movieDetailed.data.Genre,
-                plot: movieDetailed.data.Plot,
-                cast: movieDetailed.data.Actors,
-                reviews: [],
-                posterImageUrl: movieDetailed.data.Poster,
-              };
-            } else {
+            const castAndCrew = await Axios.get(`https://api.themoviedb.org/3/movie/${movieUnformatted.id}/credits?api_key=93e398a3dcc4a264a6fe485c3f16a028&language=en-US`);
+            
+            //get first 5 cast members
+            const cast = castAndCrew.data.cast.slice(0, 4).map((member) => member.name).join(', ');
+            //get director
+            const director = castAndCrew.data.crew.find((member) => member.job === 'Director');
+            const directorName = director ? director.name : '';
+
+            //get genres
+            const genre = movieDetailed.data.genres.map((genre) => genre.name).join(', ');
+
+            if (
+              movieDetailed.data.status !== 'Released' ||
+              movieDetailed.data.poster_path === null ||
+              movieDetailed.data.overview === '' ||
+              movieDetailed.data.release_date === '' ||
+              movieDetailed.data.original_title === '' ||
+              movieDetailed.data.imdb_id === ''
+            ) {
               return null;
             }
+
+            return {
+              _id: movieDetailed.data.imdb_id,
+              title: movieDetailed.data.original_title,
+              director: directorName,
+              releaseDate: movieDetailed.data.release_date,
+              genre: genre,
+              //limit plot to 200 characters
+              plot: movieDetailed.data.overview,
+              cast: cast,
+              reviews: [],
+              posterImageUrl: `https://image.tmdb.org/t/p/original${movieDetailed.data.poster_path}`,
+            };
+            
+            
+            
           } catch (error) {
             console.error(error);
             return null;
@@ -133,6 +157,7 @@ function MoviesList(props) {
                 setListOfMovies={setListOfMovies}
                 listOfMovies={listOfMovies}
                 alertSpam={alertSpam}
+                setSearchTerm={setSearchTerm}
               />
             </li>
           );

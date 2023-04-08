@@ -14,7 +14,7 @@ function WelcomeCard({ textStyle, darkMode }) {
       <p style={textStyle}>
         Welcome to Honest reviews, a movie review website that lets anyone write reviews.
         The movies that currently have reviews attached are listed below.
-        This website uses the <a href="https://www.omdbapi.com/" target="_blank" rel="noreferrer">OMDb API</a> to fetch movie information.
+        This website uses the <a href="https://www.themoviedb.org/settings/api" target="_blank" rel="noreferrer">TMDb API</a> to fetch movie information.
         Reviews are checked for spam using large language models with the <a href="https://platform.openai.com/docs/api-reference/chat" target="_blank" rel="noreferrer">OpenAI API</a>.
       </p>
       <ul style={textStyle}>

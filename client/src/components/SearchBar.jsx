@@ -17,9 +17,9 @@ export default function SearchBar({ searchTerm, setSearchTerm, searchOMDB }) {
     if (searchTerm.length > 2) {
       clearTimeout(debounceTimeout.current);
       debounceTimeout.current = setTimeout(() => {
-        Axios.get(`https://www.omdbapi.com/?i=tt3896198&apikey=dd610a6e&s=${searchTerm}&type=movie`)
+        Axios.get(`https://api.themoviedb.org/3/search/movie?api_key=93e398a3dcc4a264a6fe485c3f16a028&language=en-US&query=${searchTerm}&page=1&include_adult=false`)
         .then(response => {
-          setSearchResults(response.data.Search.map(movie => movie.Title + ' (' + movie.Year + ')'));
+          setSearchResults(response.data.results.map(movie => movie.title + ' (' + new Date(movie.release_date).getFullYear() + ')'));
         })
         .catch(error => {
           console.error(error);

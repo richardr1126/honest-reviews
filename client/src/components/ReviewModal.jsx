@@ -96,6 +96,7 @@ function ReviewModal(props) {
         setStorySliderValue(getRandomInt(0, 5));
         setPerformancesSliderValue(getRandomInt(0, 5));
         setMusicSliderValue(getRandomInt(0, 5));
+        props.setSearchTerm('');
       });
   }
 
