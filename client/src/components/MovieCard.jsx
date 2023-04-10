@@ -157,7 +157,7 @@ function MovieCard(props) {
         </div>
       </div>
       {//if expanded, show cookie consent
-        expanded && (<CookieConsent
+        expanded && props.movie.reviews.length > 0 && (<CookieConsent
           location="bottom"
           buttonText="Sure man!!"
           cookieName="acceptedCookies_BOOL"

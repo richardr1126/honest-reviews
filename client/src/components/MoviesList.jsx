@@ -4,6 +4,7 @@ import Axios from 'axios';
 import MovieCard from './MovieCard';
 import SearchBar from './SearchBar';
 import Alert from '@mui/material/Alert';
+import SorterControl from './SorterControl';
 
 function MoviesList(props) {
   const [listOfMovies, setListOfMovies] = useState([]);
@@ -17,6 +18,8 @@ function MoviesList(props) {
   const bgColor = props.darkMode ? '#262626' : 'white';
 
   const [showAlert, setShowAlert] = useState(false);
+  const [sorter, setSorter] = useState('latest-reviewed');
+  const [genreSorter, setGenreSorter] = useState('all');
 
   const filterAndDedupeMovies = useCallback((movies) => {
     return movies
@@ -36,6 +39,78 @@ function MoviesList(props) {
       }, []);
   }, [searchTerm]);
 
+  const sortByMode = useCallback((sorter, movies) => {
+    switch (sorter) {
+      case 'latest-reviewed':
+        //sort movies by their most recent review they have
+        return movies.sort((a, b) => {
+          const aDate = new Date(a.reviews[0].date);
+          const bDate = new Date(b.reviews[0].date);
+          return bDate - aDate;
+        });
+      case 'oldest-reviewed':
+        //sort movies by their oldest review they have
+        return movies.sort((a, b) => {
+          const aDate = new Date(a.reviews[0].date);
+          const bDate = new Date(b.reviews[0].date);
+          return aDate - bDate;
+        });
+      case 'release-date':
+        //sort movies by their release date
+        return movies.sort((a, b) => {
+          const aDate = new Date(a.releaseDate);
+          const bDate = new Date(b.releaseDate);
+          return bDate - aDate;
+        });
+      default:
+        //sort movies by their most recent review they have
+        return movies.sort((a, b) => {
+          const aDate = new Date(a.reviews[0].date);
+          const bDate = new Date(b.reviews[0].date);
+          return bDate - aDate;
+        });
+    }
+  }, []);
+
+  const sortByGenre = useCallback((genreSorter, movies) => {
+    switch (genreSorter) {
+      case 'all':
+        return movies;
+      case 'action':
+        return movies.filter((movie) => movie.genre.toLowerCase().includes('action'));
+      case 'adventure':
+        return movies.filter((movie) => movie.genre.toLowerCase().includes('adventure'));
+      case 'animation':
+        return movies.filter((movie) => movie.genre.toLowerCase().includes('animation'));
+      case 'comedy':
+        return movies.filter((movie) => movie.genre.toLowerCase().includes('comedy'));
+      case 'crime':
+        return movies.filter((movie) => movie.genre.toLowerCase().includes('crime'));
+      case 'documentary':
+        return movies.filter((movie) => movie.genre.toLowerCase().includes('documentary'));
+      case 'drama':
+        return movies.filter((movie) => movie.genre.toLowerCase().includes('drama'));
+      case 'family':
+        return movies.filter((movie) => movie.genre.toLowerCase().includes('family'));
+      case 'fantasy':
+        return movies.filter((movie) => movie.genre.toLowerCase().includes('fantasy'));
+      case 'history':
+        return movies.filter((movie) => movie.genre.toLowerCase().includes('history'));
+      case 'horror':
+        return movies.filter((movie) => movie.genre.toLowerCase().includes('horror'));
+      case 'music':
+        return movies.filter((movie) => movie.genre.toLowerCase().includes('music'));
+      case 'mystery':
+        return movies.filter((movie) => movie.genre.toLowerCase().includes('mystery'));
+      case 'romance':
+        return movies.filter((movie) => movie.genre.toLowerCase().includes('romance'));
+      default:
+        return movies;
+    }
+  }, []);
+
+
+
   useEffect(() => {
     (async () => {
       try {
@@ -44,13 +119,14 @@ function MoviesList(props) {
             ? '/api/movies/get'
             : 'http://192.168.0.25:3001/api/movies/get'
         );
-        setListOfMovies(filterAndDedupeMovies(response.data));
+
+        setListOfMovies(filterAndDedupeMovies(sortByMode(sorter, sortByGenre(genreSorter, response.data))));
 
       } catch (error) {
         console.error(error);
       }
     })();
-  }, [filterAndDedupeMovies]);
+  }, [filterAndDedupeMovies, sortByMode, sorter, sortByGenre, genreSorter]);
 
   const searchOMDB = useCallback(async () => {
     try {
@@ -65,7 +141,7 @@ function MoviesList(props) {
               `https://api.themoviedb.org/3/movie/${movieUnformatted.id}?api_key=93e398a3dcc4a264a6fe485c3f16a028&language=en-US`
             );
             const castAndCrew = await Axios.get(`https://api.themoviedb.org/3/movie/${movieUnformatted.id}/credits?api_key=93e398a3dcc4a264a6fe485c3f16a028&language=en-US`);
-            
+
             //get first 5 cast members
             const cast = castAndCrew.data.cast.slice(0, 4).map((member) => member.name).join(', ');
             //get director
@@ -98,9 +174,9 @@ function MoviesList(props) {
               reviews: [],
               posterImageUrl: `https://image.tmdb.org/t/p/original${movieDetailed.data.poster_path}`,
             };
-            
-            
-            
+
+
+
           } catch (error) {
             console.error(error);
             return null;
@@ -138,12 +214,19 @@ function MoviesList(props) {
           : { backgroundColor: bgColor }
       }
     >
+      <SorterControl sorter={sorter} setSorter={setSorter} genreSorter={genreSorter} setGenreSorter={setGenreSorter}></SorterControl>
       <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} searchOMDB={searchOMDB} />
       {showAlert && (
         <Alert onClose={() => setShowAlert(false)} severity='warning'>
           Your review was marked for spam by ChatGPT and hidden, please write a real review!
         </Alert>
       )}
+
+      
+      
+
+
+
       <ul aria-live='polite'>
         {listOfMovies.map((movie) => {
           return (
