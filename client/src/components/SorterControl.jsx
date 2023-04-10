@@ -96,21 +96,28 @@ export default function SorterControl({ sorter, setSorter, genreSorter, setGenre
           selected={sorter === 'latest-reviewed'}
           disableRipple
         >
-          Recently reviewed
+          Reviews - New
         </MenuItem>
         <MenuItem
           onClick={() => handleClose('oldest-reviewed')}
           selected={sorter === 'oldest-reviewed'}
           disableRipple
         >
-          Oldest reviewed
+          Reviews - Old
         </MenuItem>
         <MenuItem
-          onClick={() => handleClose('release-date')}
-          selected={sorter === 'release-date'}
+          onClick={() => handleClose('release-date-new')}
+          selected={sorter === 'release-date-new'}
           disableRipple
         >
-          Release date
+          Release date - New
+        </MenuItem>
+        <MenuItem
+          onClick={() => handleClose('release-date-old')}
+          selected={sorter === 'release-date-old'}
+          disableRipple
+        >
+          Release date - Old
         </MenuItem>
       </StyledMenu>
       <ThemeProvider theme={customTabsTheme}>

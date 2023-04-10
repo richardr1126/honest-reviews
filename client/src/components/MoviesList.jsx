@@ -55,12 +55,19 @@ function MoviesList(props) {
           const bDate = new Date(b.reviews[0].date);
           return aDate - bDate;
         });
-      case 'release-date':
+      case 'release-date-new':
         //sort movies by their release date
         return movies.sort((a, b) => {
           const aDate = new Date(a.releaseDate);
           const bDate = new Date(b.releaseDate);
           return bDate - aDate;
+        });
+      case 'release-date-old':
+        //sort movies by their release date
+        return movies.sort((a, b) => {
+          const aDate = new Date(a.releaseDate);
+          const bDate = new Date(b.releaseDate);
+          return aDate - bDate;
         });
       default:
         //sort movies by their most recent review they have
