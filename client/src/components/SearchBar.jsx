@@ -1,11 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import Axios from 'axios';
 import { IonIcon } from '@ionic/react';
-import { searchOutline } from 'ionicons/icons';
+import { searchOutline, funnelSharp } from 'ionicons/icons';
 import Autocomplete from '@mui/material/Autocomplete';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { alpha, styled } from '@mui/material/styles';
 
 const StyledMenu = styled((props) => (
@@ -95,7 +94,7 @@ export default function SearchBar({ sorter, setSorter, searchTerm, setSearchTerm
           aria-expanded={open ? 'true' : undefined}
           onClick={handleClick}
         >
-          <KeyboardArrowDownIcon />
+          <IonIcon style={{ color: 'white' }} icon={funnelSharp} aria-label="Filter icon"  />
         </button>
         <Autocomplete
           includeInputInList={true}
