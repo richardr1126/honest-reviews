@@ -61,7 +61,7 @@ export default function SorterControl({ genreSorter, setGenreSorter }) {
           variant="scrollable"
           scrollButtons="auto"
           allowScrollButtonsMobile
-          aria-label="scrollable auto tabs example"
+          aria-label="Sort by genre"
         >
           <StyledTab label="All" value="all" />
           <StyledTab label="Action" value="action" />

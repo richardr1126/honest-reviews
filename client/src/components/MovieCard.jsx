@@ -72,8 +72,7 @@ function MovieCard(props) {
   return (
     <div id={props.movie.title+props.movie._id} role="article">
       <br />
-      <p className='sr-only'>{props.movie.title}, click or tap to see reviews</p>
-      <div tabIndex='0' className={props.darkMode ? "card is-darkmode-hoverable" : "card is-hoverable"} onClick={(event) => {
+      <div tabIndex='0' aria-label={props.movie.title + ", with a honest reviews rating of " + calculateAverageRating(props.movie.reviews) + ", directed by " + props.movie.director + ", " + props.movie.plot + ", click or tab to see reviews"} role='button' className={props.darkMode ? "card is-darkmode-hoverable" : "card is-hoverable"} onClick={(event) => {
         if (!expanded && !modalRef.current.classList.contains('is-active')) {
           setExpanded(true);
         }
@@ -105,13 +104,11 @@ function MovieCard(props) {
             <div className="media-content is-clipped" style={{ overflow: 'clip' }}>
               <div className='columns'>
                 <div className='column'>
-                  <h1 className={expanded ? "title is-4" : "title is-5"}>
-                    <span aria-hidden='true' className="sr-only">Movie title: </span>
+                  <h1 aria-label='Title' className={expanded ? "title is-4" : "title is-5"}>
                     {props.movie.title + ' '}
                     {calculateAverageRating(props.movie.reviews) > 0 && (
                       <>
-                        <span aria-hidden='true' className="sr-only">Rating: </span>
-                        <span aria-hidden='true' className={expanded ? "tag is-info is-medium" : "tag is-info is-small"} style={{backgroundColor: '#1F547F'}}>{calculateAverageRating(props.movie.reviews)}</span>
+                        <span aria-label={'Rating: '+calculateAverageRating(props.movie.reviews)} className={expanded ? "tag is-info is-medium" : "tag is-info is-small"} style={{backgroundColor: '#1F547F'}}>{calculateAverageRating(props.movie.reviews)}</span>
                       </>
                     )}
                   </h1>
@@ -149,7 +146,7 @@ function MovieCard(props) {
 
             <div aria-label="Collapse reviews" onClick={() => { setExpanded(false); setCollapsed(true); }} className={expanded ^ !hasReviews ? '' : 'is-collapsed'}>
               <br />
-              <IonIcon tabIndex='0' className='has-cursor-pointer' icon={chevronUpOutline} size='small' onKeyDown={(event) => { if (event.key === 'Enter'  && !modalRef.current.classList.contains('is-active')) { setExpanded(false); setCollapsed(true); } }} />
+              <IonIcon tabIndex='0' aria-label="Collapse reviews" role='button' className='has-cursor-pointer' icon={chevronUpOutline} size='small' onKeyDown={(event) => { if (event.key === 'Enter'  && !modalRef.current.classList.contains('is-active')) { setExpanded(false); setCollapsed(true); } }} />
             </div>
 
           </div>

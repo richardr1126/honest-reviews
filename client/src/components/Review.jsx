@@ -105,7 +105,7 @@ export default function Review({ movie, review }) {
   const columnClassName3 = isMobile ? 'column has-text-left' : 'column has-text-left';
 
   return (
-    <div id={review._id} className='box is-hoverable' key={review._id} role="article">
+    <div id={review._id} className='box is-hoverable' key={review._id} role="article" aria-label={"Review from "+review.author}>
       <div className='columns'>
         <div className='column is-three-quarters' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', alignItems: 'flex-start' }}>
           <div>
@@ -115,7 +115,7 @@ export default function Review({ movie, review }) {
             </p>
             {review.review.length > 300 && (
               // underline on hover
-              <div onClick={toggleFullText} className="has-cursor-pointer underline-on-hover" style={{paddingBottom: '1rem'}}>
+              <div onClick={toggleFullText} className="has-cursor-pointer underline-on-hover" style={{paddingBottom: '1rem'}} role="button">
                 <strong>{showFullText ? 'Show less' : 'Show more'}</strong>
               </div>
             )}
@@ -134,7 +134,7 @@ export default function Review({ movie, review }) {
               </div>
             )}
             <div className={columnClassName}>
-              <p style={{ marginTop: '8px', marginRight: isMobile ? '' : '1px', fontSize: fontSize }}>{votes}</p>
+              <p aria-labelledby={'Vote count'} style={{ marginTop: '8px', marginRight: isMobile ? '' : '1px', fontSize: fontSize }}>{votes}</p>
             </div>
             <div className={columnClassName2} style={isMobile ? { marginTop: '10px' } : {}}>
               <IonIcon aria-label="Upvote" style={{ color: isUpvoted ? 'red' : '' }} onClick={() => { vote('up'); }} className="has-cursor-pointer is-hoverable" icon={arrowUpOutline} size={iconSize} />
