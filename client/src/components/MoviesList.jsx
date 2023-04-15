@@ -5,6 +5,7 @@ import MovieCard from './MovieCard';
 import SearchBar from './SearchBar';
 import Alert from '@mui/material/Alert';
 import SorterControl from './SorterControl';
+import { IonSpinner } from '@ionic/react';
 
 function MoviesList(props) {
   const [listOfMovies, setListOfMovies] = useState([]);
@@ -229,26 +230,40 @@ function MoviesList(props) {
         </Alert>
       )}
 
-
-      <ul aria-live='polite'>
-        {listOfMovies.map((movie) => {
-          return (
-            <li key={movie._id}>
-              <MovieCard
-                hasReviewId={hasReviewId}
-                reviewIdToScroll={reviewId}
-                key={movie._id}
-                darkMode={props.darkMode}
-                movie={movie}
-                setListOfMovies={setListOfMovies}
-                listOfMovies={listOfMovies}
-                alertSpam={alertSpam}
-                setSearchTerm={setSearchTerm}
-              />
-            </li>
-          );
-        })}
-      </ul>
+      {listOfMovies.length === 0 ? (
+        <div className="spinner" style={{textAlign: 'center', margin: '5rem'}}>
+          <IonSpinner name="crescent" />
+        </div>
+      ) : (
+        <div
+          className="box container is-max-desktop"
+          style={
+            isMobile
+              ? { padding: '10px', backgroundColor: bgColor, outline: '0' }
+              : { backgroundColor: bgColor }
+          }
+        >
+          <ul aria-live='polite'>
+            {listOfMovies.map((movie) => {
+              return (
+                <li key={movie._id}>
+                  <MovieCard
+                    hasReviewId={hasReviewId}
+                    reviewIdToScroll={reviewId}
+                    key={movie._id}
+                    darkMode={props.darkMode}
+                    movie={movie}
+                    setListOfMovies={setListOfMovies}
+                    listOfMovies={listOfMovies}
+                    alertSpam={alertSpam}
+                    setSearchTerm={setSearchTerm}
+                  />
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
