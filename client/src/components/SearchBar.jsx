@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import Axios from 'axios';
 import { IonIcon } from '@ionic/react';
-import { searchOutline, funnelSharp } from 'ionicons/icons';
+import { searchOutline, optionsOutline } from 'ionicons/icons';
 import Autocomplete from '@mui/material/Autocomplete';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -94,7 +94,7 @@ export default function SearchBar({ sorter, setSorter, searchTerm, setSearchTerm
           aria-expanded={open ? 'true' : undefined}
           onClick={handleClick}
         >
-          <IonIcon style={{ color: 'white' }} icon={funnelSharp} aria-label="Filter icon"  />
+          <IonIcon style={{ color: 'white', fontSize: '1.25rem' }} icon={optionsOutline} aria-label="Filter icon"  />
         </button>
         <Autocomplete
           includeInputInList={true}
