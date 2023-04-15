@@ -221,17 +221,13 @@ function MoviesList(props) {
           : { backgroundColor: bgColor }
       }
     >
-      <SorterControl sorter={sorter} setSorter={setSorter} genreSorter={genreSorter} setGenreSorter={setGenreSorter}></SorterControl>
-      <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} searchOMDB={searchOMDB} />
+      <SorterControl genreSorter={genreSorter} setGenreSorter={setGenreSorter}></SorterControl>
+      <SearchBar sorter={sorter} setSorter={setSorter} searchTerm={searchTerm} setSearchTerm={setSearchTerm} searchOMDB={searchOMDB} />
       {showAlert && (
         <Alert onClose={() => setShowAlert(false)} severity='warning'>
           Your review was marked for spam by ChatGPT and hidden, please write a real review!
         </Alert>
       )}
-
-      
-      
-
 
 
       <ul aria-live='polite'>
