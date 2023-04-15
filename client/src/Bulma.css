@@ -602,7 +602,7 @@ a.box:active {
   background-color: #fff;
   border-color: #dbdbdb;
   border-width: 1px;
-  color: #ffffff;
+  color: #363636;
   cursor: pointer;
   justify-content: center;
   padding-bottom: calc(.5em - 1px);
