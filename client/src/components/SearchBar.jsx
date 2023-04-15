@@ -130,6 +130,7 @@ export default function SearchBar({ sorter, setSorter, searchTerm, setSearchTerm
                 type="text"
                 style={{
                   width: '100%',
+                  borderRadius: '0px',
                 }}
                 placeholder="Search for any movie by title"
                 value={searchTerm}
