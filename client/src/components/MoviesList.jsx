@@ -5,7 +5,8 @@ import MovieCard from './MovieCard';
 import SearchBar from './SearchBar';
 import Alert from '@mui/material/Alert';
 import SorterControl from './SorterControl';
-import { IonSpinner } from '@ionic/react';
+import { IonSpinner, IonIcon } from '@ionic/react';
+import { caretDown, caretUp } from 'ionicons/icons';
 
 function MoviesList(props) {
   const [listOfMovies, setListOfMovies] = useState([]);
@@ -214,6 +215,14 @@ function MoviesList(props) {
     }
   }, [showAlert]);
 
+  //create sorter legend
+  const sorterLegend = {
+    'latest-reviewed': 'Reviews',
+    'oldest-reviewed': 'Reviews',
+    'release-date-new': 'Release date',
+    'release-date-old': 'Release date',
+  };
+
   return (
     <div
       className='box container is-max-desktop'
@@ -224,7 +233,11 @@ function MoviesList(props) {
       }
     >
       <SorterControl genreSorter={genreSorter} setGenreSorter={setGenreSorter}></SorterControl>
-      <SearchBar sorter={sorter} setSorter={setSorter} searchTerm={searchTerm} setSearchTerm={setSearchTerm} searchOMDB={searchOMDB} />
+      <SearchBar sorter={sorter} setSorter={setSorter} searchTerm={searchTerm} setSearchTerm={setSearchTerm} searchOMDB={searchOMDB} />           
+      <span style={{ display: 'flex', width: 'fit-content', alignItems: 'center', justifyContent: 'left', marginBottom: '0.35rem' }} >
+        <IonIcon icon={(sorter === 'latest-reviewed' || sorter === 'release-date-new') ? caretUp : caretDown} style={{fontSize: '1.4rem'}} />
+        <p style={{fontSize: '0.9rem', fontWeight: 'bold',marginLeft: '0.25rem'}}>{sorterLegend[sorter]}</p>
+      </span>
       {showAlert && (
         <Alert onClose={() => setShowAlert(false)} severity='warning'>
           Your review was marked for spam by ChatGPT and hidden, please write a real review!

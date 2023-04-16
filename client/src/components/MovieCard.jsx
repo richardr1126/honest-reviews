@@ -70,8 +70,7 @@ function MovieCard(props) {
   }
 
   return (
-    <div id={props.movie.title+props.movie._id} role="article">
-      <br />
+    <div id={props.movie.title+props.movie._id} role="article" style={{paddingBottom: '1.15rem'}}>
       <div tabIndex='0' aria-label={props.movie.title + ", with a honest reviews rating of " + calculateAverageRating(props.movie.reviews) + ", directed by " + props.movie.director + ", " + props.movie.plot + ", click or tab to see reviews"} role='button' className={props.darkMode ? "card is-darkmode-hoverable" : "card is-hoverable"} onClick={(event) => {
         if (!expanded && !modalRef.current.classList.contains('is-active')) {
           setExpanded(true);
