@@ -94,7 +94,7 @@ export default function SearchBar({ sorter, setSorter, searchTerm, setSearchTerm
           aria-expanded={open ? 'true' : undefined}
           onClick={handleClick}
         >
-          <IonIcon style={{ color: 'white', fontSize: '1.25rem' }} icon={optionsOutline} aria-label="Filter icon"  />
+          <IonIcon style={{ color: 'white', fontSize: '1.25rem' }} icon={optionsOutline} aria-label="Filter icon" />
         </button>
         <Autocomplete
           includeInputInList={true}
@@ -161,21 +161,6 @@ export default function SearchBar({ sorter, setSorter, searchTerm, setSearchTerm
           onClose={() => handleClose(sorter)}
           sx={{ width: '100%' }}
         >
-
-          <MenuItem
-            onClick={() => handleClose('latest-reviewed')}
-            selected={sorter === 'latest-reviewed'}
-            disableRipple
-          >
-            Reviews - New
-          </MenuItem>
-          <MenuItem
-            onClick={() => handleClose('oldest-reviewed')}
-            selected={sorter === 'oldest-reviewed'}
-            disableRipple
-          >
-            Reviews - Old
-          </MenuItem>
           <MenuItem
             onClick={() => handleClose('release-date-new')}
             selected={sorter === 'release-date-new'}
@@ -190,6 +175,21 @@ export default function SearchBar({ sorter, setSorter, searchTerm, setSearchTerm
           >
             Release date - Old
           </MenuItem>
+          <MenuItem
+            onClick={() => handleClose('latest-reviewed')}
+            selected={sorter === 'latest-reviewed'}
+            disableRipple
+          >
+            Reviews - New
+          </MenuItem>
+          <MenuItem
+            onClick={() => handleClose('oldest-reviewed')}
+            selected={sorter === 'oldest-reviewed'}
+            disableRipple
+          >
+            Reviews - Old
+          </MenuItem>
+
         </StyledMenu>
       </div>
     </div>

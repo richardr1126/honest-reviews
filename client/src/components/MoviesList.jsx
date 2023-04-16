@@ -19,7 +19,7 @@ function MoviesList(props) {
   const bgColor = props.darkMode ? '#262626' : 'white';
 
   const [showAlert, setShowAlert] = useState(false);
-  const [sorter, setSorter] = useState('latest-reviewed');
+  const [sorter, setSorter] = useState('release-date-new');
   const [genreSorter, setGenreSorter] = useState('all');
 
   const filterAndDedupeMovies = useCallback((movies) => {
