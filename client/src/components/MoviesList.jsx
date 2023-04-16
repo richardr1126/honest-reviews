@@ -18,8 +18,9 @@ function MoviesList(props) {
   const isMobile = window.innerWidth <= 768;
   const bgColor = props.darkMode ? '#262626' : 'white';
 
+
   const [showAlert, setShowAlert] = useState(false);
-  const [sorter, setSorter] = useState('release-date-new');
+  const [sorter, setSorter] = useState(localStorage.getItem('sorter') || 'release-date-new');
   const [genreSorter, setGenreSorter] = useState('all');
 
   const filterAndDedupeMovies = useCallback((movies) => {

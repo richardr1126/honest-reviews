@@ -56,6 +56,8 @@ export default function SearchBar({ sorter, setSorter, searchTerm, setSearchTerm
     setAnchorEl(event.currentTarget);
   };
   const handleClose = (value) => {
+    //store value in local storage
+    localStorage.setItem('sorter', value);
     setAnchorEl(null);
     setSorter(value);
   };
