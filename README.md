@@ -1,10 +1,10 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/richardr1126/honest-reviews)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/eaca842b-7d1c-4540-bbef-4ccd29743289/deploy-status)](https://app.netlify.com/sites/honest-reviews/deploys)
 <br>
-[![MongoDB Atlas Cloud](https://img.shields.io/badge/-MongoDB-black?logo=mongodb)](https://cloud.mongodb.com/)
-[![Express.js](https://img.shields.io/badge/-Express.js-black?logo=express)](https://expressjs.com/)
+[![MongoDB Atlas Cloud](https://img.shields.io/badge/-MongoDB-white?logo=mongodb)](https://cloud.mongodb.com/)
+[![Express.js](https://img.shields.io/badge/-Express.js-red?logo=express)](https://expressjs.com/)
 [![React.js](https://img.shields.io/badge/-React.js-black?logo=react)](https://react.dev/)
-[![Node.js](https://img.shields.io/badge/-Node.js-black?logo=node)](https://react.dev/)
+[![Node.js](https://img.shields.io/badge/-Node.js-black?logo=javascript)](https://nodejs.org/en)
 
 
 
