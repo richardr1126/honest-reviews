@@ -4,7 +4,7 @@
 [![MongoDB Atlas Cloud](https://img.shields.io/badge/-MongoDB-white?logo=mongodb)](https://cloud.mongodb.com/)
 [![Express.js](https://img.shields.io/badge/-Express.js-red?logo=express)](https://expressjs.com/)
 [![React.js](https://img.shields.io/badge/-React.js-black?logo=react)](https://react.dev/)
-[![Node.js](https://img.shields.io/badge/-Node.js-black?logo=javascript)](https://nodejs.org/en)
+[![Node.js](https://img.shields.io/badge/-Node.js-black?logo=npm)](https://nodejs.org/en)
 
 
 
