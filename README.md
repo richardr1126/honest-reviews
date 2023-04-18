@@ -1,11 +1,16 @@
+![GitHub last commit](https://img.shields.io/github/last-commit/richardr1126/honest-reviews)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/eaca842b-7d1c-4540-bbef-4ccd29743289/deploy-status)](https://app.netlify.com/sites/honest-reviews/deploys)
+<br>
+[![MongoDB Atlas Cloud](https://img.shields.io/badge/-MongoDB-black?logo=mongodb)](https://cloud.mongodb.com/)
+[![Express.js](https://img.shields.io/badge/-Express.js-black?logo=express)](https://expressjs.com/)
+[![React.js](https://img.shields.io/badge/-React.js-black?logo=react)](https://react.dev/)
+[![Node.js](https://img.shields.io/badge/-Node.js-black?logo=node)](https://react.dev/)
+
+
+
 # Honest reviews
 
 Honest reviews is a movie review website that lets anyone write reviews. The movies that currently have reviews attached are listed on the website. This website uses the TMDb API to fetch movie information. Reviews are checked for spam using large language models with the OpenAI API.
-
-![GitHub last commit](https://img.shields.io/github/last-commit/richardr1126/honest-reviews)
-![GitHub issues](https://img.shields.io/github/issues/richardr1126/honest-reviews)
-![GitHub stars](https://img.shields.io/github/stars/richardr1126/honest-reviews)
-![GitHub license](https://img.shields.io/github/license/richardr1126/honest-reviews)
 
 ## Features
 
