@@ -235,7 +235,7 @@ function MoviesList(props) {
       <SorterControl genreSorter={genreSorter} setGenreSorter={setGenreSorter}></SorterControl>
       <SearchBar sorter={sorter} setSorter={setSorter} searchTerm={searchTerm} setSearchTerm={setSearchTerm} searchOMDB={searchOMDB} />           
       <span style={{ display: 'flex', width: 'fit-content', alignItems: 'center', justifyContent: 'left', marginBottom: '0.35rem' }} >
-        <IonIcon icon={(sorter === 'latest-reviewed' || sorter === 'release-date-new') ? caretUp : caretDown} style={{fontSize: '1.4rem'}} />
+        <IonIcon icon={(sorter === 'latest-reviewed' || sorter === 'release-date-new') ? caretDown : caretUp} style={{fontSize: '1.4rem'}} />
         <p style={{fontSize: '0.9rem', fontWeight: 'bold',marginLeft: '0.25rem'}}>{sorterLegend[sorter]}</p>
       </span>
       {showAlert && (
