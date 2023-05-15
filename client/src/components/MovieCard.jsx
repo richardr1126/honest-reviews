@@ -155,15 +155,14 @@ function MovieCard(props) {
       {//if expanded, show cookie consent
         expanded && props.movie.reviews.length > 0 && (<CookieConsent
           location="bottom"
-          buttonText="Sure man!!"
+          buttonText="I understand"
           cookieName="acceptedCookies_BOOL"
           style={{ background: "#2B373B" }}
           buttonStyle={{ color: "#4e503b", fontSize: "18px", borderRadius: '5px', marginTop: isMobile ? '0' : '15px' }}
           expires={1000}
           aria-hidden="true"
         >
-          This website uses cookies to store the reviews you have upvoted.{" "}
-          <span style={{ fontSize: "10px" }}>Or downvoted. To enhance the user experience :O</span>
+          This website uses cookies to store the reviews you have upvoted.
         </CookieConsent>)
       }
     </div>
