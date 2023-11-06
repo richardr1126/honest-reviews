@@ -10,7 +10,7 @@
 
 # Honest reviews
 
-Honest reviews is a movie review website that lets anyone write reviews. The movies that currently have reviews attached are listed on the website. This website uses the TMDb API to fetch movie information. Reviews are checked for spam using large language models with the OpenAI API.
+Honest reviews is a movie reviews website that lets anyone write reviews. The movies that currently have reviews attached are listed on the website. This website uses the TMDb API to fetch movie information. Reviews are checked for spam using large language models with the OpenAI API.
 
 ## Features
 
