@@ -126,7 +126,7 @@ function MoviesList(props) {
       try {
         const response = await Axios.get(
           process.env.NODE_ENV === 'production'
-            ? 'https://honest-reviews.herokuapp.com/api/movies/get'
+            ? 'https://honest-reviews-d38c2a521825.herokuapp.com/api/movies/get'
             : 'http://192.168.0.25:3001/api/movies/get'
         );
 

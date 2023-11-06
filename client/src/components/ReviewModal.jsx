@@ -81,7 +81,7 @@ function ReviewModal(props) {
     };
 
     // Make API call to post the new review
-    Axios.post((process.env.NODE_ENV === 'production') ? 'https://honest-reviews.herokuapp.com/api/movies/post' : 'http://localhost:3001/api/movies/post', {
+    Axios.post((process.env.NODE_ENV === 'production') ? 'https://honest-reviews-d38c2a521825.herokuapp.com/api/movies/post' : 'http://localhost:3001/api/movies/post', {
       movie: props.movie, review: newReview
     })
       .then((response) => {

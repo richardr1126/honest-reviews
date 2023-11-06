@@ -78,7 +78,7 @@ export default function Review({ movie, review }) {
       }
 
     }
-    Axios.post((process.env.NODE_ENV === 'production') ? 'https://honest-reviews.herokuapp.com/api/movies/vote' : 'http://localhost:3001/api/movies/vote', {
+    Axios.post((process.env.NODE_ENV === 'production') ? 'https://honest-reviews-d38c2a521825.herokuapp.com/api/movies/vote' : 'http://localhost:3001/api/movies/vote', {
       movie: movie, review: review
     }).then((response) => {
       console.log('upvote updated');
@@ -91,7 +91,7 @@ export default function Review({ movie, review }) {
         await navigator.share({
           title: `Review of ${movie.title} with a rating of ${calcRating(review)}`,
           text: review.review.replace(/(\r\n|\n|\r)/gm, ""),
-          url: `https://movies.richardroberson.info/?reviewId=${review._id}`,
+          url: `https://movies.richardroberson.dev/?reviewId=${review._id}`,
         });
       }
     } catch (error) {
