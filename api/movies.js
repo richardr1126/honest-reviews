@@ -58,7 +58,7 @@ router.post('/post', async (req, res) => {
   const prompt = `Title: ${movie.title}\nAuthor: ${review.author}\nReview: ${reviewText}`;
   console.log(prompt);
   const completion = await openai.createChatCompletion({
-    model: 'gpt-3.5-turbo',
+    model: 'gpt-3.5-turbo-16k',
     max_tokens: 800,
     messages: [
       { "role": "system", "content": sys_prompt },
